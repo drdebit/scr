@@ -1,0 +1,9 @@
+
+======================================================================
+Error Log - 2025-12-03T22:16:09.758468
+======================================================================
+
+File: resources/filings/nonexistent.html
+Error Type: class java.io.FileNotFoundException
+Message: resources/filings/nonexistent.html (No such file or directory)
+

@@ -1,0 +1,33 @@
+;; Known single-word company names for entity extraction
+;; This file is loaded at startup and updated dynamically during analysis
+;; Format: Set of lowercase company names that should be recognized as valid entity references
+;;
+;; Categories:
+;; - Tech giants
+;; - EV/Auto manufacturers (parent companies only, not subsidiary brands)
+;; - Auto suppliers
+;; - Autonomous vehicle companies
+;; - Other major companies frequently mentioned in SEC filings
+
+#{;; Tech giants
+  "apple" "amazon" "google" "microsoft" "meta" "netflix" "nvidia"
+  "uber" "lyft" "airbnb" "spotify" "twitter" "qualcomm" "intel" "amd" "broadcom"
+
+  ;; EV/Auto manufacturers
+  "tesla" "rivian" "lucid" "fisker" "nio" "xpeng" "byd"
+  "ford" "stellantis" "toyota" "honda" "hyundai" "volkswagen" "bmw"
+  "porsche" "ferrari" "chrysler" "volvo" "subaru" "mazda" "mitsubishi" "nissan"
+  "kia" "genesis"
+
+  ;; Auto suppliers
+  "lear" "aptiv" "magna" "bosch" "continental" "denso" "zf"
+  "cummins" "caterpillar"
+
+  ;; Autonomous vehicle / mobility
+  "cruise" "waymo" "argo" "mobileye" "aurora"
+
+  ;; Aerospace / Defense
+  "boeing" "lockheed" "raytheon"
+
+  ;; Other
+  "panasonic" "samsung"}

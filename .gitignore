@@ -1,0 +1,18 @@
+.cpcache/
+.nrepl-port
+target/
+*.class
+*.jar
+.lsp/
+.clj-kondo/
+
+# Large SEC filing directories (download separately)
+resources/filings_sample/
+resources/filings_8k/
+resources/filings/
+resources/indexes/
+
+# Context exports can be regenerated
+resources/contexts_sample/*.txt
+resources/contexts_8k/*.txt
+resources/contexts/*.txt
