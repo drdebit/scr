@@ -1,0 +1,256 @@
+#+TITLE: SEC Filing Cross-Reference Analysis Project Summary
+#+AUTHOR: Research Team
+#+DATE: 2026-01-20
+
+* Original Research Intent
+
+** Goal
+Identify instances where firms provide information about other firms that conflicts with or adds to the mentioned firm's own disclosures - essentially finding "competing narratives" in SEC filings.
+
+** Motivating Example
+From prior analysis: AMD's 10-K describes Intel as "dominant" in the processor market, while Intel's own 10-K states they have "lost market share." This contradiction reveals how competitive positioning shapes disclosure narratives.
+
+** Research Question
+Can we systematically extract cross-company references from 10-K filings to find:
+1. Conflicting narratives (Firm A says X about Firm B; Firm B says Y about itself)
+2. Information that adds to what the mentioned firm discloses
+3. Substantive intelligence not available from the mentioned firm's own filings
+
+* Methodology
+
+** Phase 1: Scale Up the Sample
+- Downloaded SEC EDGAR master indexes for Q1 2023, 2024, 2025
+- Randomly sampled *480 10-K filings* across 3 fiscal years (FY2022-2024)
+- Total corpus: *7.5 GB* of filings from diverse industries
+
+** Phase 2: Initial Entity Extraction
+- Ran the existing =scr.entity= extraction pipeline with =sec-filers-only= filtering
+- Matched extracted company names against the SEC filer registry (CIK resolution)
+- Classified relationship types (supplier, customer, competitor, partner, etc.)
+
+*** Initial Results (All Mentions)
+| Metric                    | Value |
+|---------------------------+-------|
+| Cross-company mentions    |   862 |
+| Unique entity pairs       |    88 |
+| Context files exported    |   689 |
+| Bidirectional relationships |   0 |
+
+Note: The original curated 92-filing sample had 8 bidirectional relationships.
+
+** Phase 3: Assess Substantiveness
+Manually examined extracted contexts to determine if they contained actionable information.
+
+Key question: "Is there information here that a decision-maker could use that isn't available in the mentioned firm's own filing?"
+
+** Phase 4: Improve Extraction Precision
+Enhanced the extraction pipeline based on findings:
+- Added percentage extraction (key for customer concentration disclosures)
+- Added "substantive mention" filtering
+- Created more specific relationship classifiers
+- Filtered out boilerplate patterns
+
+*** New Relationship Types Added
+| Type                    | Description                              |
+|-------------------------+------------------------------------------|
+| =:customer-concentration= | "X accounted for Y% of our revenue"      |
+| =:sole-supplier=          | "X is our exclusive/sole source"         |
+| =:major-customer=         | "significant customer" language          |
+| =:supplier-dependency=    | "we depend on X for..."                  |
+| =:strategic-partner=      | Strategic alliance language              |
+| =:equity-stake=           | Percentage ownership stakes              |
+
+*** Refined Results (Substantive Only)
+| Metric                    | All Mentions | Substantive Only | Reduction |
+|---------------------------+--------------+------------------+-----------|
+| Entity mentions           |          862 |              560 | 35%       |
+| Unique entity pairs       |           88 |               63 | 28%       |
+| Context files             |          689 |              429 | 38%       |
+| Files with % data         |          N/A |               67 | -         |
+
+* Key Findings
+
+** Finding 1: Most Cross-Company Mentions Are Not Substantive
+
+The vast majority (~80%) of cross-company mentions in 10-Ks fall into low-value categories:
+
+| Category                   | Example                                      | Value |
+|----------------------------+----------------------------------------------+-------|
+| Risk factor lists          | "We compete with Amazon, Apple, Microsoft…" | Low   |
+| Executive bios             | "Ms. Smith worked at Google from 2015-2020" | None  |
+| Tenant lists (REITs)       | "Properties include Apple Store, Tesla…"    | Low   |
+| Generic competitive landscape | "Industry participants include Intel, AMD…" | Low   |
+
+** Finding 2: The Information Asymmetry Problem
+
+SEC disclosure requirements create a structural limitation:
+
+#+BEGIN_QUOTE
+Filer must disclose → Filer's own risks, dependencies, vulnerabilities
+Filer is NOT required to disclose → Strategic information about other firms
+#+END_QUOTE
+
+Most disclosures take the form: "/We/ depend on Entity X" or "Entity X is /our/ largest customer"
+
+This reveals information *about the filer*, not about the mentioned entity. The mentioned entity:
+- Already knows its own supplier/customer relationships
+- Already knows the contract terms (they signed them)
+- Is not surprised by any of this information
+
+** Finding 3: Substantive Information Exists But Is Rare
+
+*** A. Customer Concentration Data (Most Valuable)
+| Filer             | Mentioned Entity       | Disclosure                  |
+|-------------------+------------------------+-----------------------------|
+| Amkor Technology  | Apple                  | 30.8% of net sales          |
+| Amkor Technology  | Qualcomm               | 10.2% of net sales          |
+| CTS Corp          | Toyota                 | 12.2% of net sales          |
+| CTS Corp          | Cummins                | 11.7% of net sales          |
+| RTX/Collins       | Boeing + Airbus        | 16-19% of segment sales     |
+| RenaissanceRe     | Aon, Marsh, Gallagher  | 82.1% of gross premiums     |
+| Dentsply Sirona   | Patterson, Henry Schein | ~13% of revenue            |
+
+This data reveals supplier concentration that the /mentioned/ firm (Apple, Toyota, Boeing) doesn't directly disclose.
+
+*** B. Contract/Agreement Terms
+| Filer     | Mentioned Entity | Disclosure                                                                     |
+|-----------+------------------+--------------------------------------------------------------------------------|
+| NVIDIA    | Microsoft        | Microsoft has anti-takeover rights (first/last refusal on 30%+ acquisition)   |
+| Santander | Stellantis       | MPLFA agreement: equity options, performance metrics, revenue sharing, termination |
+
+*** C. Strategic Relationships
+- Licensing terms in pharma (Xencor's agreements with Gilead, Omeros, Vir)
+- Joint venture structures (Phillips 66 - Ford energy JV)
+
+** Finding 4: Competing Narratives Are Extremely Rare
+
+*The AMD-Intel example from the original sample remains the only clear instance of competing narratives.*
+
+Why competing narratives are rare:
+1. Companies avoid directly naming competitors in ways that could be challenged
+2. Disclosure language is vetted by lawyers to be defensible
+3. Quantitative claims are typically about the filer's own metrics
+4. Characterizations of other firms use hedging language
+
+The random 480-filing sample found *zero bidirectional relationships* where both companies mention each other, compared to 8 in the original curated 92-filing sample. This suggests:
+- The original sample was curated to include known competitors (AMD-Intel, Ford-GM, Delta-American, etc.)
+- Random sampling rarely captures both sides of a competitive relationship
+- Competing narratives require both firms to discuss each other substantively
+
+** Finding 5: The Real Value May Be in Aggregation
+
+Individual cross-references are rarely valuable for understanding the mentioned firm. However, *aggregating across many filers* could reveal:
+
+1. *Market power indicators*: If 50 suppliers all list Company X as a major customer with concentration risk, X has significant buyer power
+2. *Supply chain mapping*: Aggregating "who supplies whom" creates network graphs
+3. *Dependency patterns*: Identifying which firms are mentioned as "sole source" or "critical supplier"
+
+*** Top Mentioned Entities (Substantive)
+| Entity        | Mentions | Primary Relationship Types          |
+|---------------+----------+-------------------------------------|
+| Amazon        |       18 | supplier, customer, contract        |
+| Microsoft     |       15 | supplier, contract, customer        |
+| Jefferies     |       12 | contract (investment banking)       |
+| Apple         |       12 | customer, partner, concentration    |
+| Goldman Sachs |       11 | affiliate, investment               |
+| Intel         |        8 | customer, supplier-dependency       |
+| Toyota        |        7 | affiliate, concentration            |
+| Ford          |        7 | affiliate, joint-venture            |
+| Merck         |        7 | affiliate, sole-supplier            |
+
+* Evolution of the Analysis
+
+#+BEGIN_SRC
+Original Hypothesis
+    "Firms disclose conflicting information about each other"
+                            ↓
+Initial Finding
+    "Most mentions are boilerplate, not substantive"
+                            ↓
+Refined Approach
+    "Filter for quantitative/specific relationship mentions"
+                            ↓
+Key Insight
+    "SEC disclosure structure reveals filer's vulnerability,
+     not mentioned firm's strategy"
+                            ↓
+Pivoted Question
+    "Can aggregation across many filings reveal patterns
+     about frequently-mentioned firms?"
+#+END_SRC
+
+* Conclusions
+
+** What We Learned
+
+1. *Competing narratives are rare* - The AMD-Intel example is exceptional, not representative. Most cross-company mentions are legally cautious and non-controversial.
+
+2. *Information asymmetry flows the wrong direction* - Disclosures reveal the /filer's/ dependence, not the /mentioned firm's/ strategy. The mentioned firm already knows its own relationships.
+
+3. *Substantive value is concentrated* - Only ~15-20% of mentions contain actionable data. Customer concentration percentages are the most valuable category.
+
+4. *Random sampling doesn't find bidirectional relationships* - Finding competing narratives requires targeting known competitors or industry clusters.
+
+5. *Aggregation may be more valuable than individual extraction* - The real insight might come from asking "How many firms list Apple as a 10%+ customer?" rather than "What does Firm X say about Apple?"
+
+** Limitations of the Approach
+
+- The mentioned firm already knows what its suppliers/customers disclose about it
+- Truly conflicting information would create legal liability, so it's avoided
+- Qualitative characterizations (like AMD calling Intel "dominant") are rare and subjective
+- Bidirectional analysis requires curated samples of known business relationships
+
+** Potential Paths Forward
+
+1. *Curated competitor analysis*: Instead of random sampling, download 10-Ks for known competitor pairs (AMD-Intel, Ford-GM, Uber-Lyft, etc.) and specifically compare their characterizations of each other and the market
+
+2. *Supply chain aggregation*: Build a database of "who mentions whom as a major customer" to map supply chain dependencies that aren't visible from any single filing
+
+3. *Temporal analysis*: Track how the /same/ cross-reference changes over time (e.g., does a customer's share of revenue grow or shrink?)
+
+4. *Event-driven analysis*: Focus on 8-K filings around specific events (M&A announcements, contract terminations) where competing narratives are more likely
+
+* Technical Artifacts
+
+** Code Changes Made
+- Enhanced =scr.entity/classify-relationship= with 18 specific relationship types
+- Added =extract-percentages= function for customer concentration data
+- Added =substantive-mention?= filter to exclude boilerplate
+- Added =:substantive-only= option to =analyze-filing= and =run-analysis=
+
+** Data Generated
+| Path                                | Description                      |
+|-------------------------------------+----------------------------------|
+| =resources/filings_large_sample/=     | 480 10-K filings (7.5 GB)        |
+| =resources/contexts_substantive/=     | 429 substantive context files    |
+| =resources/contexts_substantive/index.csv= | Index of all extractions    |
+| =resources/substantive_analysis.edn=  | Aggregated analysis results      |
+
+** Key Source Files
+| Path                              | Description               |
+|-----------------------------------+---------------------------|
+| =src/scr/entity.clj=                | Enhanced extraction logic |
+| =scripts/analyze_substantive.clj=   | Analysis runner           |
+| =scripts/analyze_large_sample.clj=  | Original analysis runner  |
+
+** Relationship Type Distribution (Final)
+| Relationship Type      | Count |
+|------------------------+-------|
+| affiliate              |   172 |
+| mentioned              |   112 |
+| contract               |    86 |
+| partner                |    83 |
+| supplier               |    67 |
+| acquisition            |    63 |
+| investment             |    49 |
+| customer               |    44 |
+| competitor             |    28 |
+| license                |    23 |
+| supplier-dependency    |    21 |
+| customer-concentration |    10 |
+| divestiture            |    10 |
+| joint-venture          |     7 |
+| strategic-partner      |     5 |
+| major-customer         |     4 |
+| sole-supplier          |     3 |
+| equity-stake           |     2 |

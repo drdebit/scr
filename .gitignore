@@ -10,9 +10,12 @@ target/
 resources/filings_sample/
 resources/filings_8k/
 resources/filings/
+resources/filings_large_sample/
 resources/indexes/
 
-# Context exports can be regenerated
+# Context exports can be regenerated (but keep index.csv files)
 resources/contexts_sample/*.txt
 resources/contexts_8k/*.txt
 resources/contexts/*.txt
+resources/contexts_large_sample/*.txt
+resources/contexts_substantive/*.txt

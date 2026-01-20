@@ -306,24 +306,58 @@
 ;; ============================================================================
 
 (defn- classify-relationship
-  "Classify the type of relationship mentioned in text for an entity."
+  "Classify the type of relationship mentioned in text for an entity.
+   Returns a more specific relationship type when possible."
   [text entity-name]
   (let [lower-text (str/lower-case text)
         entity-lower (str/lower-case entity-name)
-        ;; Find the context around the entity mention
+        ;; Find the context around the entity mention (wider window for better classification)
         idx (str/index-of lower-text entity-lower)
         context (when idx
                   (subs lower-text
-                        (max 0 (- idx 100))
-                        (min (count lower-text) (+ idx (count entity-lower) 100))))]
+                        (max 0 (- idx 150))
+                        (min (count lower-text) (+ idx (count entity-lower) 150))))]
     (cond
-      (and context (re-find #"(?:supplier|supplied by|supply|supplies)" context)) :supplier
-      (and context (re-find #"(?:customer|sold to|sells to|sale to)" context)) :customer
-      (and context (re-find #"(?:joint venture|jv\b)" context)) :joint-venture
-      (and context (re-find #"(?:partner|partnership|alliance)" context)) :partner
-      (and context (re-find #"(?:subsidiary|affiliate|owned by|ownership)" context)) :affiliate
-      (and context (re-find #"(?:acquired|acquisition|purchased|bought)" context)) :acquisition
-      (and context (re-find #"(?:invest|equity method|stake)" context)) :investment
+      ;; Customer concentration (most valuable) - look for revenue/sales percentage patterns
+      (and context (re-find #"(?:accounted for|represented|comprised|constituted).{0,30}(?:%|percent).{0,30}(?:revenue|sales|net sales)" context)) :customer-concentration
+      (and context (re-find #"(?:revenue|sales|net sales).{0,30}(?:%|percent).{0,30}(?:from|to|with)" context)) :customer-concentration
+      (and context (re-find #"(?:significant|major|principal|largest).{0,20}(?:customer|client)" context)) :major-customer
+
+      ;; Supplier relationships
+      (and context (re-find #"(?:sole|single|exclusive|only)\s+(?:source|supplier|provider)" context)) :sole-supplier
+      (and context (re-find #"(?:supplier|supplied by|supply|supplies|source|procure|purchase from)" context)) :supplier
+      (and context (re-find #"(?:depend|dependent|relies? on|reliant).{0,30}(?:for|on)" context)) :supplier-dependency
+
+      ;; Customer relationships
+      (and context (re-find #"(?:customer|client|sold to|sells to|sale to|sales to)" context)) :customer
+
+      ;; Licensing and contracts
+      (and context (re-find #"(?:exclusive|non-exclusive).{0,20}(?:license|agreement|right)" context)) :license
+      (and context (re-find #"(?:license|licensed|licensing).{0,30}(?:agreement|from|to|with)" context)) :license
+      (and context (re-find #"(?:contract|agreement|arrangement).{0,20}(?:with|between)" context)) :contract
+
+      ;; Joint ventures
+      (and context (re-find #"(?:joint venture|jv\b|jointly owned)" context)) :joint-venture
+
+      ;; Partnerships and alliances
+      (and context (re-find #"(?:strategic|commercial|business).{0,15}(?:partner|alliance|relationship)" context)) :strategic-partner
+      (and context (re-find #"(?:partner|partnership|alliance|collaborate|collaboration)" context)) :partner
+
+      ;; Ownership and affiliates
+      (and context (re-find #"(?:subsidiary|affiliate|owned by|ownership|parent|holding)" context)) :affiliate
+      (and context (re-find #"(\d+(?:\.\d+)?)\s*%\s*(?:owned|ownership|interest|stake)" context)) :equity-stake
+
+      ;; M&A activity
+      (and context (re-find #"(?:acquired|acquisition|purchased|bought|merged|merger)" context)) :acquisition
+      (and context (re-find #"(?:divest|sold|disposed|spin-off|spinoff)" context)) :divestiture
+
+      ;; Investment relationships
+      (and context (re-find #"(?:invest|equity method|stake|holding)" context)) :investment
+
+      ;; Competitive mentions (often low-value but sometimes useful)
+      (and context (re-find #"(?:compet|rival)" context)) :competitor
+
+      ;; Default - but we'll filter these out with substantive-mention?
       :else :mentioned)))
 
 (def ^:private section-patterns
@@ -412,25 +446,116 @@
              (remove nil?)
              vec)))))
 
+(defn- extract-percentages
+  "Extract percentage values mentioned near an entity.
+   Returns a vector of maps with :value and :context-hint."
+  [text entity-name]
+  (let [entity-lower (str/lower-case entity-name)
+        lower-text (str/lower-case text)
+        idx (str/index-of lower-text entity-lower)]
+    (when idx
+      (let [;; Look within 250 chars before and after for percentages
+            start (max 0 (- idx 250))
+            end (min (count text) (+ idx (count entity-lower) 250))
+            context (subs text start end)
+            lower-context (subs lower-text start end)
+            ;; Patterns for percentages with context
+            matches (re-seq #"(\d+(?:\.\d+)?)\s*%" context)]
+        (->> matches
+             (map (fn [[raw pct-str]]
+                    (let [pct (try (Double/parseDouble pct-str) (catch Exception _ nil))]
+                      (when (and pct (> pct 0) (<= pct 100))
+                        (let [;; Try to determine what the percentage refers to
+                              hint (cond
+                                     (re-find #"(?:revenue|sales|net sales)" lower-context) :revenue-concentration
+                                     (re-find #"(?:customer|account)" lower-context) :customer-concentration
+                                     (re-find #"(?:own|ownership|equity|stake)" lower-context) :ownership
+                                     (re-find #"(?:market|share)" lower-context) :market-share
+                                     (re-find #"(?:cost|expense|purchase)" lower-context) :cost-concentration
+                                     :else :unspecified)]
+                          {:value pct
+                           :raw raw
+                           :context-hint hint})))))
+             (remove nil?)
+             vec)))))
+
+(def ^:private high-value-sections
+  "Sections that typically contain substantive entity mentions."
+  #{:significant-customers :supply-chain :related-party :notes-to-financials :business})
+
+(def ^:private boilerplate-patterns
+  "Patterns that indicate boilerplate/generic mentions to filter out."
+  [#"(?i)we compete with"
+   #"(?i)our competitors include"
+   #"(?i)competition from"
+   #"(?i)companies like"
+   #"(?i)such as .{0,50}(and|,)"
+   #"(?i)including .{0,50}(and|,)"
+   #"(?i)for example"
+   #"(?i)e\.g\."
+   #"(?i)comparable companies"
+   #"(?i)other companies"
+   #"(?i)industry participants"])
+
+(defn- boilerplate-mention?
+  "Check if the context suggests this is a boilerplate/generic mention."
+  [context]
+  (when context
+    (some #(re-find % context) boilerplate-patterns)))
+
+(defn- substantive-mention?
+  "Determine if an entity mention is substantive (actionable information)
+   rather than generic/boilerplate.
+
+   A mention is substantive if it has ANY of:
+   - A specific relationship type (not just :mentioned)
+   - Percentage data near the mention
+   - Monetary values near the mention
+   - Materiality indicators AND in a high-value section
+   - Is in a high-value section with specific relationship language"
+  [{:keys [relationship percentages monetary-values materiality-indicators section context]}]
+  (and
+   ;; Not boilerplate language
+   (not (boilerplate-mention? context))
+   ;; Has substantive content
+   (or
+    ;; Has a specific relationship (not generic "mentioned")
+    (and relationship (not= relationship :mentioned))
+    ;; Has percentage data (key for concentration disclosures)
+    (seq percentages)
+    ;; Has monetary values (indicates quantified relationship)
+    (seq monetary-values)
+    ;; In high-value section with materiality indicators
+    (and (high-value-sections section) (seq materiality-indicators))
+    ;; In significant-customers or supply-chain section (always valuable)
+    (#{:significant-customers :supply-chain :related-party} section))))
+
 (defn extract-entity-relationships
   "Extract entities and their relationships from a paragraph.
    Returns a sequence of maps with :entity, :normalized, :key, :relationship, :context,
-   :section, :materiality-indicators, :monetary-values."
+   :section, :materiality-indicators, :monetary-values, :percentages, :substantive."
   [text section]
   (let [entities (extract-potential-entities text)]
     (for [entity entities]
-      {:entity entity
-       :normalized (normalize-entity-name entity)
-       :key (entity-key entity)
-       :relationship (classify-relationship text entity)
-       :section section
-       :materiality-indicators (extract-materiality-indicators text entity)
-       :monetary-values (extract-monetary-values text entity)
-       :context (let [idx (str/index-of text entity)]
+      (let [rel (classify-relationship text entity)
+            materiality (extract-materiality-indicators text entity)
+            monetary (extract-monetary-values text entity)
+            pcts (extract-percentages text entity)
+            ctx (let [idx (str/index-of text entity)]
                   (when idx
                     (subs text
                           (max 0 (- idx 50))
-                          (min (count text) (+ idx (count entity) 150)))))})))
+                          (min (count text) (+ idx (count entity) 150)))))
+            mention-data {:entity entity
+                          :normalized (normalize-entity-name entity)
+                          :key (entity-key entity)
+                          :relationship rel
+                          :section section
+                          :materiality-indicators materiality
+                          :monetary-values monetary
+                          :percentages pcts
+                          :context ctx}]
+        (assoc mention-data :substantive (substantive-mention? mention-data))))))
 
 ;; ============================================================================
 ;; Filing Analysis
@@ -492,7 +617,7 @@
    Returns nil if not found, or the SEC filer info with original context and metadata."
   [entity-info]
   (let [{:keys [entity normalized relationship context section
-                materiality-indicators monetary-values]} entity-info]
+                materiality-indicators monetary-values percentages substantive]} entity-info]
     ;; First check if this looks like an intentional company reference
     (when (looks-like-company-reference? entity normalized)
       ;; Try to find a match in the SEC registry
@@ -505,6 +630,8 @@
          :section section
          :materiality-indicators materiality-indicators
          :monetary-values monetary-values
+         :percentages percentages
+         :substantive substantive
          :context context}))))
 
 (defn- aggregate-relationship-counts
@@ -540,13 +667,25 @@
        distinct
        vec))
 
+(defn- aggregate-percentages
+  "Collect all percentage values across mentions."
+  [rels]
+  (->> rels
+       (mapcat :percentages)
+       (remove nil?)
+       distinct
+       vec))
+
 (defn analyze-filing
   "Analyze a filing and extract all entity relationships.
    Options:
      :sec-filers-only - if true, only include entities that are SEC filers (default: false)
+     :substantive-only - if true, only include substantive mentions (default: false)
+                         Substantive = has specific relationship, percentages, monetary values,
+                         or is in a high-value section with materiality indicators
    Returns a map with filing metadata and extracted entities."
   ([file-path] (analyze-filing file-path {}))
-  ([file-path {:keys [sec-filers-only] :or {sec-filers-only false}}]
+  ([file-path {:keys [sec-filers-only substantive-only] :or {sec-filers-only false substantive-only false}}]
    (let [{:keys [cik name doc filing-date filing-type]} (extract-filing-metadata file-path)
          paragraphs (extract-prose-paragraphs doc)
          ;; Extract entities from each paragraph with section detection
@@ -556,16 +695,28 @@
                                        (extract-entity-relationships para section))))
                            ;; Remove self-references (filer mentioning itself)
                            (remove #(str/includes? (str/lower-case (:normalized %))
-                                                   (str/lower-case (or name "")))))
+                                                   (str/lower-case (or name ""))))
+                           ;; Filter to substantive mentions if requested
+                           ((fn [entities]
+                              (if substantive-only
+                                (filter :substantive entities)
+                                entities))))
          ;; If sec-filers-only, resolve and filter to SEC filers
          processed-entities (if sec-filers-only
                               (->> raw-entities
                                    (map resolve-to-sec-filer)
                                    (remove nil?)
+                                   ;; Filter again for substantive after resolution (in case flag wasn't set on raw)
+                                   ((fn [entities]
+                                      (if substantive-only
+                                        (filter :substantive entities)
+                                        entities)))
                                    ;; Group by CIK (canonical identifier)
                                    (group-by :cik)
                                    (map (fn [[entity-cik rels]]
-                                          (let [first-rel (first rels)]
+                                          (let [first-rel (first rels)
+                                                ;; Check if any mention was substantive
+                                                has-substantive (some :substantive rels)]
                                             {:entity (:entity first-rel)
                                              :sec-name (:sec-name first-rel)
                                              :cik entity-cik
@@ -573,9 +724,11 @@
                                              :relationships (distinct (map :relationship rels))
                                              :relationship-counts (aggregate-relationship-counts rels)
                                              :mention-count (count rels)
+                                             :substantive-count (count (filter :substantive rels))
                                              :sections (aggregate-sections rels)
                                              :materiality-indicators (aggregate-materiality rels)
                                              :monetary-values (aggregate-monetary-values rels)
+                                             :percentages (aggregate-percentages rels)
                                              ;; Collect ALL contexts, not just sample
                                              :contexts (->> rels
                                                             (map :context)
@@ -598,9 +751,11 @@
                                              :relationships (distinct (map :relationship rels))
                                              :relationship-counts (aggregate-relationship-counts rels)
                                              :mention-count (count rels)
+                                             :substantive-count (count (filter :substantive rels))
                                              :sections (aggregate-sections rels)
                                              :materiality-indicators (aggregate-materiality rels)
                                              :monetary-values (aggregate-monetary-values rels)
+                                             :percentages (aggregate-percentages rels)
                                              ;; Collect ALL contexts, not just sample
                                              :contexts (->> rels
                                                             (map :context)
@@ -616,6 +771,7 @@
       :filing-date filing-date
       :filing-type filing-type
       :sec-filers-only sec-filers-only
+      :substantive-only substantive-only
       :entity-count (count processed-entities)
       :entities processed-entities})))
 
@@ -885,10 +1041,11 @@
      :show-common - if true, show cross-filing matches (default: true)
      :show-bidirectional - if true, show bidirectional relationships (default: true)
      :sec-filers-only - if true, only show SEC filers (default: true)
+     :substantive-only - if true, only include substantive mentions (default: false)
      :continue-on-error - if true, continue processing after errors (default: true)
      :show-errors - if true, print error summary (default: true)
      :parallel - if true, process files in parallel (default: true for >2 files)"
-  [& {:keys [files show-common show-bidirectional sec-filers-only continue-on-error show-errors parallel]
+  [& {:keys [files show-common show-bidirectional sec-filers-only substantive-only continue-on-error show-errors parallel]
       :or {files ["resources/filings/f-20241231.html"
                   "resources/filings/gm-20241231.html"
                   "resources/filings/tsla-20241231.html"
@@ -896,19 +1053,23 @@
            show-common true
            show-bidirectional true
            sec-filers-only true
+           substantive-only false
            continue-on-error true
            show-errors true
            parallel nil}}]
   (let [use-parallel (if (nil? parallel)
                        (> (count files) 2)  ; Auto-enable for >2 files
-                       parallel)]
+                       parallel)
+        analysis-opts {:sec-filers-only sec-filers-only
+                       :substantive-only substantive-only}]
     (println "Analyzing" (count files) "filings..."
              (if sec-filers-only "(SEC filers only)" "(all entities)")
+             (when substantive-only "(substantive only)")
              (when use-parallel "(parallel)") "\n")
     (let [;; Analyze all files, capturing successes and failures
           ;; Use pmap for parallel processing when enabled
           map-fn (if use-parallel pmap mapv)
-          results (vec (map-fn #(analyze-filing-safe % {:sec-filers-only sec-filers-only}) files))
+          results (vec (map-fn #(analyze-filing-safe % analysis-opts) files))
           successes (filter :success results)
           failures (remove :success results)
           analyses (mapv :result successes)
