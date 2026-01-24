@@ -12,7 +12,8 @@
             [clojure.string :as str]
             [scr.sec :as sec]
             [scr.sec-filers :as filers]
-            [scr.known-entities :as known])
+            [scr.known-entities :as known]
+            [scr.zip :as zip])
   (:import [org.jsoup Jsoup]
            [org.jsoup.nodes Document Element]))
 
@@ -1448,3 +1449,239 @@
      :total (+ bidir-count entity-count)
      :index-path index-path
      :output-dir output-dir}))
+
+;; ============================================================================
+;; Zip Archive Analysis
+;; ============================================================================
+
+(defn extract-filing-metadata-from-content
+  "Extract metadata from SEC filing content (string).
+   This is the string-based variant of extract-filing-metadata for use with zip archives.
+   Returns a map with :cik, :name, :source-name, :filing-date, :filing-type, :doc, :html-str."
+  [content source-name]
+  (let [{:keys [doc metadata raw-content]} (sec/parse-edgar-content content source-name)
+        ;; Stringify document ONCE for all extraction functions
+        html-str (str doc)
+        ;; Use SEC header metadata if available, fall back to HTML extraction
+        cik (or (:cik metadata)
+                (extract-cik-from-html html-str)
+                (extract-cik-from-raw raw-content))
+        filing-date (or (:period-of-report metadata)
+                        (extract-filing-date-from-html html-str source-name))
+        filing-type (or (:filing-type metadata)
+                        (extract-filing-type-from-html html-str))
+        filer-name (or (:company-name metadata)
+                       (extract-filer-name-from-html html-str))]
+    {:cik cik
+     :name filer-name
+     :source-name source-name
+     :filing-date filing-date
+     :filing-type filing-type
+     :filed-date (:filed-date metadata)
+     :doc doc
+     :html-str html-str}))
+
+(defn analyze-filing-content
+  "Analyze filing content from a string and extract all entity relationships.
+   This is the string-based variant of analyze-filing for use with zip archives.
+   Options:
+     :sec-filers-only - if true, only include entities that are SEC filers (default: false)
+     :substantive-only - if true, only include substantive mentions (default: false)
+   Returns a map with filing metadata and extracted entities."
+  ([content source-name] (analyze-filing-content content source-name {}))
+  ([content source-name {:keys [sec-filers-only substantive-only] :or {sec-filers-only false substantive-only false}}]
+   (let [{:keys [cik name doc filing-date filing-type]} (extract-filing-metadata-from-content content source-name)
+         paragraphs (extract-prose-paragraphs doc)
+         ;; Extract entities from each paragraph with section detection
+         raw-entities (->> paragraphs
+                           (mapcat (fn [para]
+                                     (let [section (detect-section para)]
+                                       (extract-entity-relationships para section))))
+                           ;; Remove self-references (filer mentioning itself)
+                           (remove #(str/includes? (str/lower-case (:normalized %))
+                                                   (str/lower-case (or name ""))))
+                           ;; Filter to substantive mentions if requested
+                           ((fn [entities]
+                              (if substantive-only
+                                (filter :substantive entities)
+                                entities))))
+         ;; If sec-filers-only, resolve and filter to SEC filers
+         processed-entities (if sec-filers-only
+                              (->> raw-entities
+                                   (map resolve-to-sec-filer)
+                                   (remove nil?)
+                                   ;; Filter again for substantive after resolution
+                                   ((fn [entities]
+                                      (if substantive-only
+                                        (filter :substantive entities)
+                                        entities)))
+                                   ;; Group by CIK (canonical identifier)
+                                   (group-by :cik)
+                                   (map (fn [[entity-cik rels]]
+                                          (let [first-rel (first rels)]
+                                            {:entity (:entity first-rel)
+                                             :sec-name (:sec-name first-rel)
+                                             :cik entity-cik
+                                             :ticker (:ticker first-rel)
+                                             :relationships (distinct (map :relationship rels))
+                                             :relationship-counts (aggregate-relationship-counts rels)
+                                             :mention-count (count rels)
+                                             :substantive-count (count (filter :substantive rels))
+                                             :sections (aggregate-sections rels)
+                                             :materiality-indicators (aggregate-materiality rels)
+                                             :monetary-values (aggregate-monetary-values rels)
+                                             :percentages (aggregate-percentages rels)
+                                             :contexts (->> rels (map :context) (remove nil?) distinct vec)
+                                             :sample-context (:context first-rel)})))
+                                   ;; Remove self-references by CIK
+                                   (remove #(= (:cik %) cik))
+                                   (sort-by :mention-count >))
+                              ;; Original behavior - all entities
+                              (->> raw-entities
+                                   (group-by :key)
+                                   (map (fn [[k rels]]
+                                          (let [first-rel (first rels)]
+                                            {:entity (:entity first-rel)
+                                             :normalized (:normalized first-rel)
+                                             :key k
+                                             :relationships (distinct (map :relationship rels))
+                                             :relationship-counts (aggregate-relationship-counts rels)
+                                             :mention-count (count rels)
+                                             :substantive-count (count (filter :substantive rels))
+                                             :sections (aggregate-sections rels)
+                                             :materiality-indicators (aggregate-materiality rels)
+                                             :monetary-values (aggregate-monetary-values rels)
+                                             :percentages (aggregate-percentages rels)
+                                             :contexts (->> rels (map :context) (remove nil?) distinct vec)
+                                             :sample-context (:context first-rel)})))
+                                   (sort-by :mention-count >)))]
+     {:cik cik
+      :filer-name name
+      :source-name source-name
+      :filing-date filing-date
+      :filing-type filing-type
+      :sec-filers-only sec-filers-only
+      :substantive-only substantive-only
+      :entity-count (count processed-entities)
+      :entities processed-entities})))
+
+(defn analyze-zip-archive
+  "Analyze all 10-K filings in a zip archive.
+   Processes entries one at a time to avoid memory issues.
+
+   Options:
+     :sec-filers-only - only include SEC filer entities (default: true)
+     :substantive-only - only include substantive mentions (default: false)
+     :limit - max number of filings to process (default: all)
+     :filter-fn - predicate on entry name to filter which entries to process
+     :progress-interval - print progress every N filings (default: 100)
+     :continue-on-error - continue processing after errors (default: true)
+
+   Returns a map with:
+     :results - vector of successful analysis results
+     :errors - vector of error entries
+     :stats - processing statistics"
+  [zip-path & {:keys [sec-filers-only substantive-only limit filter-fn progress-interval continue-on-error]
+               :or {sec-filers-only true
+                    substantive-only false
+                    progress-interval 100
+                    continue-on-error true}}]
+  (let [start-time (System/currentTimeMillis)
+        entry-filter (or filter-fn zip/is-10k-filing?)
+        analysis-opts {:sec-filers-only sec-filers-only
+                       :substantive-only substantive-only}
+        ;; Count total entries for progress reporting
+        total-entries (zip/count-entries zip-path :filter-fn entry-filter)
+        effective-total (if limit (min limit total-entries) total-entries)
+        _ (println (str "Processing " effective-total " filings from " zip-path "..."))
+        _ (println (str "  Options: sec-filers-only=" sec-filers-only
+                        ", substantive-only=" substantive-only))
+
+        ;; Process entries, accumulating results
+        result (zip/reduce-entries
+                zip-path
+                (fn [{:keys [results errors processed] :as acc} entry-name content]
+                  (let [new-processed (inc processed)]
+                    ;; Progress update
+                    (when (zero? (mod new-processed progress-interval))
+                      (let [elapsed-s (/ (- (System/currentTimeMillis) start-time) 1000.0)
+                            rate (/ new-processed elapsed-s)]
+                        (println (format "  Processed %d/%d (%.1f/sec) - %d entities found, %d errors"
+                                         new-processed effective-total rate
+                                         (reduce + 0 (map :entity-count results))
+                                         (count errors)))))
+                    ;; Analyze this filing
+                    (try
+                      (let [analysis (analyze-filing-content content entry-name analysis-opts)]
+                        {:results (conj results analysis)
+                         :errors errors
+                         :processed new-processed})
+                      (catch Exception e
+                        (if continue-on-error
+                          {:results results
+                           :errors (conj errors {:entry entry-name
+                                                 :error {:type (type e)
+                                                         :message (.getMessage e)}})
+                           :processed new-processed}
+                          (throw e))))))
+                {:results [] :errors [] :processed 0}
+                :filter-fn entry-filter
+                :limit limit
+                :continue-on-error continue-on-error)
+
+        end-time (System/currentTimeMillis)
+        elapsed-s (/ (- end-time start-time) 1000.0)
+        total-entities (reduce + 0 (map :entity-count (:results result)))]
+
+    (println (str "\nCompleted in " (format "%.1f" elapsed-s) " seconds"))
+    (println (str "  " (count (:results result)) " filings processed"))
+    (println (str "  " total-entities " entity mentions found"))
+    (println (str "  " (count (:errors result)) " errors"))
+
+    {:results (:results result)
+     :errors (:errors result)
+     :stats {:total-processed (count (:results result))
+             :total-errors (count (:errors result))
+             :total-entities total-entities
+             :elapsed-seconds elapsed-s
+             :rate-per-second (/ (count (:results result)) elapsed-s)}}))
+
+(defn run-zip-analysis
+  "High-level function to analyze a zip archive and find bidirectional relationships.
+
+   Options:
+     :zip-path - path to the zip archive (required)
+     :sec-filers-only - only include SEC filer entities (default: true)
+     :limit - max number of filings to process (default: all)
+     :show-bidirectional - show bidirectional relationships (default: true)
+     :progress-interval - print progress every N filings (default: 100)
+
+   Returns analysis results with bidirectional relationships."
+  [& {:keys [zip-path sec-filers-only limit show-bidirectional progress-interval]
+      :or {sec-filers-only true
+           show-bidirectional true
+           progress-interval 100}}]
+  (when-not zip-path
+    (throw (ex-info "zip-path is required" {})))
+
+  (let [;; Analyze the archive
+        analysis (analyze-zip-archive zip-path
+                                      :sec-filers-only sec-filers-only
+                                      :limit limit
+                                      :progress-interval progress-interval)
+        results (:results analysis)
+
+        ;; Find bidirectional relationships
+        bidirectional (when (> (count results) 1)
+                        (find-bidirectional-relationships results))]
+
+    ;; Print bidirectional relationships
+    (when (and show-bidirectional (seq bidirectional))
+      (print-bidirectional-relationships bidirectional))
+
+    ;; Return complete results
+    {:filings results
+     :bidirectional-relationships bidirectional
+     :errors (:errors analysis)
+     :stats (assoc (:stats analysis)
+                   :bidirectional-count (count bidirectional))}))

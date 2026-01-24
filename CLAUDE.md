@@ -47,12 +47,15 @@ Basic text extraction utilities:
 #### `scr.sec`
 SEC EDGAR filing parser:
 - `parse-edgar-file` - Parse EDGAR .txt files, extract HTML documents
+- `parse-edgar-content` - Parse EDGAR content from string (for zip processing)
 - `extract-prose-paragraphs` - Extract readable prose from SEC filings
 - Handles SGML wrapper format used by SEC
 
 #### `scr.entity`
 Named entity extraction and analysis:
 - `analyze-filing` - Extract all entity mentions from a filing with relationship classification
+- `analyze-filing-content` - Analyze filing content from string (for zip processing)
+- `analyze-zip-archive` - Process entire zip archive of filings
 - `find-bidirectional-relationships` - Find companies that mutually mention each other
 - `export-entity-contexts` - Export mention contexts to text files
 - `extract-filing-metadata` - Extract CIK, filer name, filing date, type
@@ -68,6 +71,13 @@ SEC filer registry for entity resolution:
 Known entity registry for improving extraction accuracy:
 - Loaded from `resources/sec/known_entities.edn`
 - Contains common company name variants and aliases
+
+#### `scr.zip`
+Zip archive processing for large-scale analysis:
+- `process-entries` - Stream process zip entries without full extraction
+- `reduce-entries` - Reduce over zip entries with accumulator
+- `is-10k-filing?` - Filter predicate for 10-K filing entries
+- Enables processing of large archives (100GB+) with minimal disk usage
 
 ## Key Data Structures
 
@@ -129,12 +139,31 @@ Known entity registry for improving extraction accuracy:
 (e/export-entity-contexts results :output-dir "resources/contexts")
 ```
 
+### Analyze a Zip Archive (Large-Scale Analysis)
+```clojure
+(require '[scr.entity :as e])
+(require '[scr.zip :as z])
+
+;; Filter for recent filings (2010-2014)
+(def recent-filter #(and (z/is-10k-filing? %) (re-find #"-1[0-4]-" %)))
+
+;; Analyze all filings in the zip archive
+(def result (e/analyze-zip-archive "/path/to/10Ks.zip"
+                                   :sec-filers-only true
+                                   :filter-fn recent-filter
+                                   :progress-interval 500))
+
+;; Find bidirectional relationships
+(def bidirectional (e/find-bidirectional-relationships (:results result)))
+```
+
 ## Data Files
 
 ### Input Data
 - `resources/filings_sample/` - Downloaded 10-K filings (92 files, ~2.2GB)
 - `resources/filings_8k/` - Downloaded 8-K filings (246 files, 422MB)
 - `resources/sec/known_entities.edn` - Known entity name mappings
+- `/media/extra2/10Ks.zip` - Complete 10-K archive (164,663 files, 51GB compressed, ~434GB uncompressed)
 
 ### Output Data
 - `resources/contexts_sample/` - Exported 10-K entity mention contexts (261 files)
@@ -142,6 +171,10 @@ Known entity registry for improving extraction accuracy:
 - `resources/contexts_sample/CONFLICTS.md` - Analysis results and findings
 - `resources/contexts_8k/` - Exported 8-K entity mention contexts (18 files)
 - `resources/contexts_8k/index.csv` - CSV index of all 8-K mentions
+- `resources/10k_analysis/` - Large-scale analysis results (39,910 filings)
+  - `summary.edn` - Analysis statistics and bidirectional relationships
+  - `bidirectional.edn` - Full relationship details with contexts
+  - `entity_index.csv` - All 32,216 entity mentions
 
 ### Temporary/Working Files
 - `/tmp/8k_filings.txt` - Extracted 8-K filing list from EDGAR index
@@ -150,20 +183,57 @@ Known entity registry for improving extraction accuracy:
 
 ## Analysis Results Summary
 
-### 10-K Analysis
-- **92 filings** analyzed from 82 unique filers
-- **261 cross-company mentions** identified
-- **8 bidirectional relationship pairs** found (AMD-Intel, AMD-NVIDIA, Southwest-Boeing, Ford-GM, Delta-American, United-American, Uber-Lyft, Rivian-Amazon)
-- Key finding: AMD-Intel narrative conflict (AMD says Intel is "dominant"; Intel says they've "lost market share")
+### Large-Scale 10-K Analysis (2010-2014)
+- **39,910 filings** analyzed from the complete 10-K archive
+- **32,216 entity mentions** identified across **2,453 unique entities**
+- **15,144 filings** (38%) contained at least one cross-company mention
+- **19 bidirectional relationship pairs** found
+- Processing time: 3 hours at 3.7 filings/second
 
-### 8-K Analysis
+### Bidirectional Relationships Discovered
+
+| Company A | Company B | Mentions | Relationship Type |
+|-----------|-----------|----------|-------------------|
+| CVR Energy | CVR Partners LP | 5/38 | Energy/fertilizer affiliates |
+| Intel | Micron Technology | 1/42 | IMFT NAND Flash joint venture |
+| Vishay Intertechnology | Vishay Precision Group | 3/17 | Spun-off entities |
+| Cheniere Energy Partners | Cheniere Energy Inc | 6/10 | LNG corporate family |
+| Ameren Corp | Ameren Illinois | 10/4 | Utility holding company |
+| NVIDIA | Intel | 10/4 | Competitors + $1.5B cross-licensing |
+| Marathon Petroleum | MPLX LP | 5/7 | Refining/MLP relationship |
+| OGE Energy | CenterPoint Energy | 1/5 | Enable Midstream partnership |
+| Regions Financial | Raymond James Financial | 3/2 | Morgan Keegan acquisition |
+| National Healthcare | National Health Investors | 3/2 | Healthcare REIT spin-off |
+| FIS | Fidelity National Financial | 1/3 | Former parent/subsidiary |
+| Edison International | Southern California Edison | 1/2 | Utility holding company |
+| Bimini Capital | Orchid Island Capital | 1/2 | Mortgage REIT affiliates |
+| TVA | American Electric Power | 2/1 | Power purchase agreements |
+| PennantPark Investment | PennantPark Floating Rate | 1/1 | BDC family |
+| Aspen Insurance | RenaissanceRe Holdings | 1/1 | Reinsurance industry |
+| Kronos Worldwide | NL Industries | 1/1 | Chemical industry affiliates |
+| Enterprise Products Partners | Plains All American Pipeline | 1/1 | Eagle Ford Pipeline JV |
+| Caterpillar | Deere & Co | 1/1 | Industrial equipment competitors |
+
+### Key Findings
+
+1. **Corporate Affiliates Dominate**: Most bidirectional relationships are between related entities (parent/subsidiary, spin-offs, MLPs and sponsors)
+
+2. **Joint Ventures Highly Visible**: Intel-Micron (IMFT), OGE-CenterPoint (Enable Midstream), and Enterprise-Plains (Eagle Ford) show how JV partners extensively document their relationships
+
+3. **Cross-Licensing Creates Mutual Disclosure**: NVIDIA-Intel's patent cross-license resulted in both companies disclosing the $264M/year arrangement
+
+4. **Competitor Relationships Rare**: Only Caterpillar-Deere shows pure competitor mutual mention - most competitor relationships are one-directional
+
+5. **Entity Density**: 0.81 entity mentions per filing on average (32,216 mentions / 39,910 filings)
+
+### 8-K Analysis (Smaller Sample)
 - **240 filings** successfully parsed from 79 unique filers
 - **18 cross-company mentions** identified
 - **0 bidirectional relationships** (8-Ks are event-driven, not comprehensive)
 - Primary mention types: Executive backgrounds (33%), Financial transactions (22%), Supplier relationships (17%)
 
-### Key Insight
-10-Ks have **38x more entity mentions per filing** than 8-Ks (2.84 vs 0.075), but 8-Ks uniquely reveal executive talent flows between companies.
+### Comparative Insight
+10-Ks have **~11x more entity mentions per filing** than 8-Ks (0.81 vs 0.075), consistent with 10-Ks being comprehensive annual disclosures vs. 8-Ks being event-driven filings.
 
 ## Performance Optimizations
 
@@ -173,3 +243,4 @@ The codebase includes several performance optimizations:
 3. **Optimized Levenshtein** - O(min(n,m)) space complexity for fuzzy matching
 4. **Parallel processing** - Optional `:parallel true` for multi-file analysis
 5. **Raw content caching** - Avoid re-reading files during extraction
+6. **Zip streaming** - Process archives without full extraction (handles 100GB+ archives with minimal disk usage)

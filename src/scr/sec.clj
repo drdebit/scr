@@ -118,6 +118,26 @@
       ;; Regular HTML file - parse from string (already read)
       (Jsoup/parse content))))
 
+(defn parse-edgar-content
+  "Parse EDGAR content from a string (not a file).
+   Returns {:doc Document, :metadata map-or-nil, :raw-content String}.
+   This is the string-based variant for use with zip archives."
+  [content source-name]
+  (if (is-edgar-txt-file? content)
+    ;; Extract HTML and metadata from EDGAR .txt wrapper
+    (let [html (extract-html-from-edgar-txt content)
+          metadata (extract-sec-header-metadata content)]
+      (if html
+        {:doc (Jsoup/parse html)
+         :metadata metadata
+         :raw-content content}
+        (throw (ex-info "Could not extract HTML from EDGAR content"
+                        {:source source-name}))))
+    ;; Regular HTML content - no SEC header metadata
+    {:doc (Jsoup/parse content)
+     :metadata nil
+     :raw-content content}))
+
 (defn parse-edgar-file
   "Parse an EDGAR file (HTML or .txt format) and return both the Jsoup Document
    and any metadata extracted from the SEC header.
@@ -125,20 +145,7 @@
    The raw-content is included to avoid re-reading the file."
   [file-path]
   (let [content (slurp (io/file file-path))]
-    (if (is-edgar-txt-file? content)
-      ;; Extract HTML and metadata from EDGAR .txt wrapper
-      (let [html (extract-html-from-edgar-txt content)
-            metadata (extract-sec-header-metadata content)]
-        (if html
-          {:doc (Jsoup/parse html)
-           :metadata metadata
-           :raw-content content}
-          (throw (ex-info "Could not extract HTML from EDGAR .txt file"
-                          {:file file-path}))))
-      ;; Regular HTML file - no SEC header metadata
-      {:doc (Jsoup/parse content)
-       :metadata nil
-       :raw-content content})))
+    (parse-edgar-content content file-path)))
 
 (defn extract-text-blocks
   "Extract text blocks from an HTML document.

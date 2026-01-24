@@ -1,0 +1,809 @@
+{:analysis-date "2026-01-24T01:28:33.847614",
+ :zip-path "/media/extra2/10Ks.zip",
+ :filter "2010-2014 filings",
+ :limit nil,
+ :stats
+ {:total-filings 39910,
+  :filings-with-entities 15144,
+  :total-entity-mentions 32216,
+  :unique-entities-mentioned 2453,
+  :bidirectional-relationships 19,
+  :errors 0,
+  :elapsed-hours 3.006161666666667,
+  :rate-per-second 3.6877960470448565},
+ :bidirectional
+ ({:company-a
+   {:monetary-values [],
+    :mentions-b 5,
+    :cik "1376139",
+    :sections [:supply-chain :unknown],
+    :name "CVR ENERGY INC",
+    :relationships-to-b (:partner :supplier),
+    :materiality-indicators #{},
+    :context
+    "13, 2011, among CVR Energy, Inc., CVR GP, LLC and CVR Partners, LP (incorporated by reference to Exhibit 10.2 to the Company's Form 8-K/A filed on May 23, 2011). 10.25** Amended and Restated Registration Rights A",
+    :contexts
+    ["13, 2011, among CVR Energy, Inc., CVR GP, LLC and CVR Partners, LP (incorporated by reference to Exhibit 10.2 to the Company's Form 8-K/A filed on May 23, 2011). 10.25** Amended and Restated Registration Rights A"
+     "LC (\"CRNF\"), its nitrogen fertilizer business, to CVR Partners, which at the time was a newly created limited partnership, in exchange for a managing general partner interest (\"managing GP interest\"), a special g"
+     "\"CVR Refining\" or the \"Refining Partnership\") and CVR Partners, LP (\"CVR Partners\" or the \"Nitrogen Fertilizer Partnership\"). The Refining Partnership is an independent petroleum refiner and marketer of high valu"
+     "re, covenants contained in the debt agreements of CVR Partners, LP and CVR Refining, LP, and the amount of distributions we receive from CVR Partners, LP and CVR Refining, LP. We may not be able to continue payin"],
+    :relationship-counts {:partner 4, :supplier 1}},
+   :company-b
+   {:monetary-values
+    [{:amount 25.3, :unit :millions, :raw "$25.3 million"}
+     {:amount 20.6, :unit :millions, :raw "$20.6 million"}
+     {:amount 18.8, :unit :millions, :raw "$18.8 million"}
+     {:amount 20.6, :unit :millions, :raw "20.6 million "}
+     {:amount 18.8, :unit :millions, :raw "18.8 million "}
+     {:amount 5000.0, :unit :dollars, :raw "$5,000, "}
+     {:amount 5000.0, :unit :dollars, :raw "$5,000 "}
+     {:amount 10000.0, :unit :dollars, :raw "$10,000 "}
+     {:amount 27.0, :unit :dollars, :raw "$27, "}
+     {:amount 30.0, :unit :dollars, :raw "$30 "}
+     {:amount 28.0, :unit :dollars, :raw "$28 "}
+     {:amount 40.0, :unit :dollars, :raw "$40, "}
+     {:amount 42.0, :unit :dollars, :raw "$42 "}
+     {:amount 45.0, :unit :dollars, :raw "$45 "}],
+    :cik "1425292",
+    :sections
+    [:unknown :notes-to-financials :related-party :supply-chain],
+    :name "CVR PARTNERS, LP",
+    :materiality-indicators #{},
+    :mentions-a 38,
+    :relationships-to-a
+    (:supplier :mentioned :partner :contract :affiliate :acquisition),
+    :context
+    "ence to Exhibit 10.17.1 of the Form 10-K filed by CVR Energy, Inc. on March 28, 2008). 10.6.2** Second Supplement to Environmental Agreement, dated as of July 23, 2008, by and between Coffeyville Resources Refi",
+    :contexts
+    ["ence to Exhibit 10.17.1 of the Form 10-K filed by CVR Energy, Inc. on March 28, 2008). 10.6.2** Second Supplement to Environmental Agreement, dated as of July 23, 2008, by and between Coffeyville Resources Refi"
+     "nt, dated as of December 19, 2013, by and between CVR Energy, Inc. and John J. Lipinski. 10.19**† Third Amended and Restated Employment Agreement, dated as of July 27, 2012, by and between CVR Energy, Inc. and "
+     "hares, performance units and incentive units from CVR Energy. The Partnership will not be responsible for the payment of cash related to any restricted share related share-based compensation allocated to us by "
+     " general partner, CRNF (our subsidiary) or we pay CVR Energy: (i) all costs incurred by CVR Energy or its affiliates in connection with the employment of its employees, other than administrative personnel, who "
+     "l as certain expenses incurred by our affiliates, CVR Energy and Coffeyville Resources, on our behalf and billed or allocated to us in accordance with the services agreement. We also reimburse our general partn"
+     "l as certain expenses incurred by our affiliates, CVR Energy and Coffeyville Resources, on our behalf and billed or allocated to us. Certain of our expenses are subject to the services agreement with CVR Energy"
+     "Base Salary. Each of the CVR Energy named executive officers has an employment agreement with CVR Energy that sets forth their initial base salaries. Base salaries are set at a level in"
+     " the general partner's senior management team and CVR Energy's senior management team pursuant to a services agreement among CVR Energy, CVR GP and the Partnership. In October 2007, the Partnership's partners a"
+     "ions, and Director Independence — Agreements with CVR Energy and CVR Refining — Services Agreement\" for a description of our services agreement. These expenses include the costs of employee, officer and directo"
+     "employment agreements with our general partner or CVR Energy (as applicable), they are entitled to severance and other benefits from us or CVR Energy following the termination of their employment under certain "
+     "he Partnership and the initial public offering of CVR Energy in October 2007, we entered into several agreements with CVR Energy and its affiliates that govern the business relations among us, CVR Energy and it"
+     "ertain employees of CVR Partners and employees of CVR Energy who perform services for the Partnership under the services agreement with CVR Energy participate in equity compensation plans of CVR Partners' affil"
+     "In December 2013, CVR Energy granted awards of incentive units and distribution equivalent rights to certain employees of CRLLC and CVR Energy who provide shared services to CVR "
+     "ents and entered into several new agreements with CVR Energy and its affiliates (some of which are now with subsidiaries of CVR Refining). These include the pet coke supply agreement under which we buy the pet "
+     "f CVR Partners and the initial public offering of CVR Energy in October 2007, CVR Partners and CRNF entered into several agreements with CVR Energy and its subsidiaries (including CRRM) that govern the business"
+     "le property at negotiated rates. In January 2013, CVR Energy acquired a minority equity interest in Insight Portfolio Group. The Partnership participates in Insight Portfolio Group’s buying group through its re"
+     "age our general partner in a manner beneficial to CVR Energy and its stockholders. The interests of CVR Energy and its stockholders may differ from, or conflict with, the interests of our common unitholders. In"
+     " Portfolio Group LLC (\"Insight Portfolio Group\"). CVR Energy acquired a minority equity interest in Insight Portfolio Group and agreed to pay a portion of Insight Portfolio Group's operating expenses in 2013. T"
+     "ners LTIP given their resignation and transfer to CVR Energy, respectively. Mr. Maffett did receive an incentive unit award from CVR Energy, the terms of which are described below."
+     "ot eligible to continue to receive benefits under CVR Energy's plans pursuant to the terms of such plans or a determination by the insurance providers, CVR Energy will use reasonable efforts to obtain individua"
+     "We are party to an omnibus agreement with CVR Energy and our general partner, pursuant to which we have agreed not to, and will cause our controlled affiliates not to, engage in, whether by acquisition "
+     "aware limited partnership, formed in June 2007 by CVR Energy, Inc. (together with its subsidiaries, but excluding the Partnership and its subsidiaries, \"CVR Energy\") to own Coffeyville Resources Nitrogen Fertil"
+     "tions and Director Independence — Agreements with CVR Energy and CVR Refining — Real Estate Transactions.\""
+     "e allocated share-based compensation expense from CVR Energy, as discussed in Note 3 (\"Share‑Based Compensation\"). Direct operating expenses exclude depreciation and amortization of approximately $25.3 million,"
+     "e allocated share-based compensation expense from CVR Energy, as discussed in Note 3 (\"Share‑Based Compensation\"). Selling, general and administrative expenses exclude depreciation and amortization of approxima"
+     "rship and CRNF maintained several agreements with CVR Energy and its subsidiaries, including CVR Refining and its subsidiaries, that govern the business relations among us. Although certain of CVR Energy's subs"
+     "determination by the insurance providers, CVR Energy will use reasonable efforts to obtain individual insurance policies providing the executives with such benefits at the same cost to CVR Energy as pro"
+     "Due to our relationship with CVR Energy and CVR Refining, adverse developments or announcements concerning CVR Energy or CVR Refining could materially adversely affect our financial conditi"
+     "elley's resignation and Mr. Maffett's transfer to CVR Energy, in each case, effective January 1, 2014, the compensation committee was not required to set new base salaries for any of our named executive officer"
+     "ions, and Director Independence — Agreements with CVR Energy and CVR Refining — Coke Supply Agreement.\""
+     "Other Forms of Compensation. Each of the CVR Energy named executive officers has provisions in their respective employment agreements with CVR Energy that provide for severance benefits in the event a "
+     " our formation and the initial public offering of CVR Energy in October 2007, we entered into several agreements with CVR Energy and its affiliates that govern the business relations among us, CVR Energy and it"
+     "In addition to contracts with CVR Energy and its affiliates. See Note 14 (\"Related Party Transactions\"). The Partnership maintains long-term contracts with one supplier. Purchases from this "
+     "l partner, an indirect wholly-owned subsidiary of CVR Energy, has fiduciary duties to CVR Energy and its stockholders, and the interests of CVR Energy and its stockholders may differ significantly from, or conf"
+     "Our pet coke cost per ton purchased from CVR Energy averaged $27, $30 and $28 for the years ended December 31, 2013, 2012 and 2011, respectively. Third-party pet coke prices averaged $40, $42 and $45 f"
+     "Our relationship with CVR Energy and CVR Refining and their financial condition subjects us to potential risks that are beyond our control."
+     "ffet for time he spent attributable to service to CVR Energy."],
+    :relationship-counts
+    {:supplier 8,
+     :mentioned 10,
+     :partner 7,
+     :contract 11,
+     :affiliate 1,
+     :acquisition 1}}}
+  {:company-a
+   {:monetary-values
+    [{:amount 859.0, :unit :millions, :raw "$859 million"}
+     {:amount 700.0, :unit :millions, :raw "$700 million"}
+     {:amount 859.0, :unit :millions, :raw "859 million "}
+     {:amount 700.0, :unit :millions, :raw "700 million "}],
+    :mentions-b 1,
+    :cik "50863",
+    :sections [:unknown],
+    :name "INTEL CORP",
+    :relationships-to-b (:affiliate),
+    :materiality-indicators #{},
+    :context
+    "we sold our ownership interest in Numonyx B.V. to Micron Technology, Inc. for consideration consisting of shares of Micron. We also entered into equity option transactions that economically hedged a portion of the own",
+    :contexts
+    ["we sold our ownership interest in Numonyx B.V. to Micron Technology, Inc. for consideration consisting of shares of Micron. We also entered into equity option transactions that economically hedged a portion of the own"],
+    :relationship-counts {:affiliate 1}},
+   :company-b
+   {:monetary-values
+    [{:amount 1863.0, :unit :millions, :raw "$1,863 million"}
+     {:amount 1863.0, :unit :millions, :raw "1,863 million "}
+     {:amount 19.0, :unit :millions, :raw "$19 million"}
+     {:amount 138.0, :unit :millions, :raw "$138 million"}
+     {:amount 141.0, :unit :millions, :raw "$141 million"}
+     {:amount 138.0, :unit :millions, :raw "138 million "}
+     {:amount 141.0, :unit :millions, :raw "141 million "}
+     {:amount 2531.0, :unit :millions, :raw "$2,531 million"}
+     {:amount 2531.0, :unit :millions, :raw "2,531 million "}
+     {:amount 2.0, :unit :millions, :raw "$2 million"}
+     {:amount 63.0, :unit :millions, :raw "$63 million"}
+     {:amount 34.0, :unit :millions, :raw "$34 million"}
+     {:amount 2.0, :unit :millions, :raw "2 million "}
+     {:amount 34.0, :unit :millions, :raw "34 million "}
+     {:amount 466.0, :unit :millions, :raw "$466 million"}
+     {:amount 14.0, :unit :dollars, :raw "$14 "}
+     {:amount 931.0, :unit :millions, :raw "$931 million"}
+     {:amount 918.0, :unit :millions, :raw "$918 million"}
+     {:amount 791.0, :unit :millions, :raw "$791 million"}
+     {:amount 918.0, :unit :millions, :raw "918 million "}
+     {:amount 791.0, :unit :millions, :raw "791 million "}
+     {:amount 8.0, :unit :millions, :raw "$8 million"}
+     {:amount 14.0, :unit :millions, :raw "$14 million"}
+     {:amount 8.0, :unit :millions, :raw "8 million "}
+     {:amount 65.0, :unit :millions, :raw "$65 million"}
+     {:amount 65.0, :unit :millions, :raw "65 million "}
+     {:amount 134.0, :unit :millions, :raw "$134 million"}
+     {:amount 139.0, :unit :millions, :raw "$139 million"}
+     {:amount 120.0, :unit :millions, :raw "$120 million"}
+     {:amount 134.0, :unit :millions, :raw "134 million "}
+     {:amount 97.0, :unit :millions, :raw "$97 million"}
+     {:amount 97.0, :unit :millions, :raw "97 million "}
+     {:amount 62.0, :unit :millions, :raw "$62 million"}
+     {:amount 62.0, :unit :millions, :raw "62 million "}],
+    :cik "723125",
+    :sections [:supply-chain :unknown :financial-statements],
+    :name "MICRON TECHNOLOGY INC",
+    :materiality-indicators #{},
+    :mentions-a 42,
+    :relationships-to-a
+    (:mentioned
+     :partner
+     :joint-venture
+     :contract
+     :customer
+     :supplier-dependency
+     :license
+     :supplier),
+    :context
+    "ron Technology, Inc., Micron Semiconductor, B.V., Intel Corporation, Intel Technology Asia Pte Ltd, STMicroelectronics N.V., Redwood Blocker S.a.r.l. and PK Flash, LLC dated February 9, 2010 (30) 10.89* Fr",
+    :contexts
+    ["ron Technology, Inc., Micron Semiconductor, B.V., Intel Corporation, Intel Technology Asia Pte Ltd, STMicroelectronics N.V., Redwood Blocker S.a.r.l. and PK Flash, LLC dated February 9, 2010 (30) 10.89* Fr"
+     "ron Technology, Inc., Micron Semiconductor, B.V., Intel Corporation, Intel Technology Asia Pte Ltd, STMicroelectronics N.V., Redwood Blocker S.a.r.l. and PK Flash, LLC dated February 9, 2010 (30) 10.89* Framework Agre"
+     "ary 27, 2007, between Micron Technology, Inc. and Intel Corporation (17) 10.23* Limited Liability Partnership Agreement dated as of February 27, 2007, between Micron Semiconductor Asia Pte. Ltd. And Intel "
+     "ary 27, 2007, between Micron Technology, Inc. and Intel Corporation (17) 10.23* Limited Liability Partnership Agreement dated as of February 27, 2007, between Micron Semiconductor Asia Pte. Ltd. And Intel Technology A"
+     "er fabrication equipment in Kiryat Gat, Israel to Intel and to terminate the related facility lease with Intel. If this transaction is completed, most of our employees in Israel will terminate their employ"
+     "er fabrication equipment in Kiryat Gat, Israel to Intel and to terminate the related facility lease with Intel. If this transaction is completed, Intel will manufacture wafers for us at the Kiryat Gat faci"
+     "On April 6, 2012, we acquired Intel's remaining ownership interest in IMFS, a joint venture between us and Intel, which operated a wafer fabrication facility in Singapore. On April 6, 2"
+     "We entered into a joint venture relationship with Intel to form IMFT in 2006 and IMFS in 2007 (collectively \"IM Flash\") to manufacture NAND Flash memory products for the exclusive use of the members. We ha"
+     "f our restructuring of IM Flash on April 6, 2012, Intel has no continuing rights to the output from the IMFS and Virginia facilities. Intel continues to receive output from IMFT in proportion to its owners"
+     " such indebtedness. The convertible notes and the Intel note of Micron are structurally subordinated to $1,863 million of other notes payable of its subsidiaries and capital lease obligations. MTI guarante"
+     ", respectively. The April 6, 2012 agreements with Intel expanded our NAND Flash R&D cost-sharing agreement to include certain emerging memory technologies, but did not change the cost-sharing percentage. A"
+     " such indebtedness. The convertible notes and the Intel note of Micron Technology, Inc. (\"MTI\") of $2,531 million are structurally subordinated to $1,863 million of other notes payable of its subsidiaries "
+     "IMFT: We partner with Intel for the design, development and manufacture of NAND Flash and certain emerging memory products. In connection therewith, we formed a joint venture wi"
+     "Ds, 15% and networking and storage, 10%. Sales to Intel, primarily NAND Flash products through IM Flash, were 10% of our net sales in 2013, 12% of our net sales in 2012, and 10% of our net sales in 2011. S"
+     "hnologies. NSG sells a portion of its products to Intel through our IM Flash joint venture at long-term negotiated prices approximating cost. All other NSG products are sold to OEMs, resellers, retailers a"
+     "4 million and $34 million, respectively, due from Intel for amounts related to NAND Flash and certain emerging memory technologies product design and process development activities under cost-sharing agree"
+     " its costs are passed to us and its other member, Intel Corporation (\"Intel\"), through product purchase agreements and IMFT is dependent upon us or Intel for any additional cash requirements. We determined"
+     "2012, we entered into a series of agreements with Intel to restructure IM Flash. We acquired Intel's remaining 18% interest in IMFS for $466 million. In addition, we acquired IMFT's assets located at our V"
+     "its costs were passed to us and its other member, Intel, through product purchase agreements and IMFS was dependent upon us or Intel for any additional cash requirements. Prior to April 6, 2012, we determi"
+     "We partnered with Intel to form IMFT in 2006 and IMFS in 2007 to manufacture NAND Flash memory products for the exclusive use of the members. IMFT (and IMFS prior to April 6"
+     "to the restructure of our IM Flash agreement with Intel in April 2012 and the ramp-up of our fabrication facility in Singapore throughout 2012. Our gross margin percentage on sales of NAND Flash products f"
+     "er fabrication equipment in Kiryat Gat, Israel to Intel and to terminate the related facility lease with Intel. Through a series of arrangements, Intel will continue to manufacture wafers for us through 20"
+     " R&D process and design costs for NAND Flash with Intel. We also share R&D costs for certain emerging memory technologies with Intel. We generally shared R&D process and design costs for DRAM with Nanya th"
+     " $8 million and $14 million, respectively, due to Intel for NAND Flash product design and process development and licensing fees pursuant to cost-sharing agreements. (See \"Derivative Financial Instruments\""
+     " a two-year senior unsecured promissory note from Intel, payable in approximately equal quarterly installments with interest at a rate of three-month LIBOR minus 50 basis points. The proceeds of the loan a"
+     "ps include our IMFT NAND Flash joint venture with Intel Corporation (\"Intel\"), our Inotera DRAM joint venture with Nanya and our MP Mask joint venture with Photronics. These joint ventures and strategic re"
+     "ps include our IMFT NAND Flash joint venture with Intel Corporation (\"Intel\"), our Inotera DRAM joint venture with Nanya and our MP Mask joint venture with Photronics. These joint ventures and strategic relationships "
+     "ucts using designs and technology we develop with Intel. We generally share product design and other NAND Flash R&D costs with Intel. The April 6, 2012 agreements with Intel expanded our NAND Flash R&D cos"
+     " million, respectively, for amounts received from Intel to be applied to Intel's future purchases under a NAND Flash supply agreement. In addition, as of August 30, 2012, other noncurrent liabilities inclu"
+     "assage of title in the IMFT supply agreement with Intel, effective April 6, 2012, sales are now recognized upon completion of wafer fabrication, rather than after backend assembly and test are completed. A"
+     "as General Manager of the Flash Product Group for Intel Corporation. Mr. Hawk holds a BS in Chemical Engineering from the University of California, Berkeley."
+     "Customer concentrations included net sales to Intel of 10%, 12% and 10% for 2013, 2012 and 2011, respectively and net sales to Hewlett-Packard Company (\"HP\") of 10% in 2013. Substantially all of our sa"
+     "nologies. The new cost-plus supply agreement with Intel also contributed to the increase in gigabits sold to trade customers for 2012."
+     "red Product Market Consolidated Entities IMFT (1) Intel Corporation 51% 2006 NAND Flash MP Mask (2) Photronics, Inc. 50% 2006 Photomasks Equity Method Investments Inotera (3) Nanya Technology Corporation 3"
+     "a portion of our output of NAND Flash products to Intel through IM Flash at long-term negotiated prices approximating cost. (See \"Operating Results by Business Segments – NAND Solutions Group\" for further "
+     " our other operations, is subject to agreement by Intel. Creditors of IMFT have recourse only to its assets and do not have recourse to any other of our assets."
+     " (52)% (52)% * Trade NAND Flash excludes sales to Intel from IM Flash."
+     "owned and operated by our IMFT joint venture with Intel. (See \"Item 8. Financial Statements and Supplementary Data – Notes to Consolidated Financial Statements – Consolidated Variable Interest Entities – I"
+     "ng market, as well as NAND Flash products sold to Intel through our IM Flash joint venture."
+     "vidends, loans or advances without the consent of Intel."
+     "ng market, as well as NAND Flash products sold to Intel Corporation (\"Intel\") through our IM Flash joint venture."],
+    :relationship-counts
+    {:mentioned 14,
+     :partner 4,
+     :joint-venture 7,
+     :contract 3,
+     :customer 8,
+     :supplier-dependency 2,
+     :license 1,
+     :supplier 3}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 3,
+    :cik "103730",
+    :sections [:financial-statements :unknown],
+    :name "VISHAY INTERTECHNOLOGY INC",
+    :relationships-to-b (:divestiture :license),
+    :materiality-indicators #{},
+    :context
+    "egment net revenues due to the very high backlog. Vishay Precision Group We completed the spin-off of VPG on July 6, 2010. Net revenues and gross margin percentage for the periods that VPG was included in our consolidated ",
+    :contexts
+    ["egment net revenues due to the very high backlog. Vishay Precision Group We completed the spin-off of VPG on July 6, 2010. Net revenues and gross margin percentage for the periods that VPG was included in our consolidated "
+     "Vishay Precision Group has a worldwide, perpetual and royalty-free license from us to use the “Vishay” mark as part of its corporate name and in connection with the manufac"
+     "nto an independent, publicly-traded company named Vishay Precision Group, Inc. (“Vishay Precision Group” or “VPG”) through a tax-free stock dividend to our stockholders."],
+    :relationship-counts {:divestiture 2, :license 1}},
+   :company-b
+   {:monetary-values
+    [{:amount 0.5, :unit :millions, :raw "$0.5 million"}
+     {:amount 0.1, :unit :millions, :raw "$0.1 million"}
+     {:amount 0.4, :unit :millions, :raw "$0.4 million"}
+     {:amount 0.5, :unit :millions, :raw "0.5 million "}
+     {:amount 0.4, :unit :millions, :raw "0.4 million "}
+     {:amount 0.1, :unit :millions, :raw "0.1 million "}],
+    :cik "1487952",
+    :sections [:signatures :unknown],
+    :name "Vishay Precision Group, Inc.",
+    :materiality-indicators #{},
+    :mentions-a 17,
+    :relationships-to-a
+    (:supplier :mentioned :divestiture :contract :license),
+    :context
+    "2010, between Vishay Measurements Group, Inc. and Vishay S.A. (previously filed as an exhibit to the Registrant’s Current Report on Form 8-K filed with the SEC on July 7, 2010 and incorporated herein by referenc",
+    :contexts
+    ["2010, between Vishay Measurements Group, Inc. and Vishay S.A. (previously filed as an exhibit to the Registrant’s Current Report on Form 8-K filed with the SEC on July 7, 2010 and incorporated herein by referenc"
+     "l Technology Products 2,000 Locations Leased from Vishay Intertechnology (shared location) Be’er Sheva, Israel Foil Technology Products 14,000"
+     " of the Vishay mark, however, both for us and for Vishay Intertechnology. Because both we and Vishay Intertechnology use the Vishay mark, confusion could arise in the market regarding the products offered by the two compan"
+     "l Officer. Mr. Clancy was Corporate Controller of Vishay Intertechnology from 1993 until November 1, 2009. He became a Vice President of Vishay Intertechnology in 2001 and a Senior Vice President of Vishay Intertechnology "
+     "corded within the indemnification receivable from Vishay Intertechnology."
+     "Under the Tax Matters Agreement, Vishay Intertechnology is contractually obligated for any increase in contingent income tax liabilities recorded in connection with the Company’s uncertain tax positions, w"
+     "As a former member of Vishay Intertechnology’s worldwide group, the Company has joint and several liability with Vishay Intertechnology to multiple tax authorities until the statute of limitatio"
+     "We have joint and several liability with Vishay Intertechnology to multiple tax authorities. However, under the terms of the Tax Matters Agreement, Vishay Intertechnology has agreed to assume this liability and an"
+     "Pursuant to the Transition Services Agreement, Vishay Intertechnology provided VPG with certain information technology support services for its foil resistor business. The Transition Services Agreement terminated on Mar"
+     "Subsequent to the spin-off, VPG and Vishay Intertechnology continue to share certain manufacturing locations. VPG owns one location in Japan at which it leases space to Vishay Intertechnology. Vishay Intertec"
+     "cated assets, liabilities and obligations between Vishay Intertechnology and us and required cooperation between the parties to fulfill the terms of the spin-off and specified the conditions to the spin-off."
+     "subsidiaries entered into several agreements with Vishay Intertechnology and its subsidiaries that govern the relationship of the parties following the spin-off."
+     "to July 6, 2010, net earnings are attributable to Vishay Intertechnology."
+     "In 1962, Dr. Felix Zandman founded Vishay Intertechnology Inc. (“Vishay Intertechnology”) to develop and manufacture the first generation of Bulk Metal® foil resistors and later, foil strain gages."
+     "On July 6, 2010, Vishay Intertechnology, Inc. (“Vishay Intertechnology”) completed the spin-off of VPG through a tax-free stock dividend to Vishay Intertechnology’s stockholders (see Note 2"
+     "A facility on the campus is leased to Vishay Intertechnology. Approximate available space reported above excludes the area leased."
+     "We use the mark Vishay under license from Vishay Intertechnology, which could result in product and market confusion."],
+    :relationship-counts
+    {:supplier 1,
+     :mentioned 11,
+     :divestiture 3,
+     :contract 1,
+     :license 1}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 6,
+    :cik "1383650",
+    :sections [:unknown],
+    :name "Cheniere Energy Partners, L.P.",
+    :relationships-to-b (:partner :mentioned),
+    :materiality-indicators #{},
+    :context
+    "er) (Incorporated by reference to Exhibit 10.1 to Cheniere Energy Partners, L.P.'s Current Report on Form 8-K (SEC File No. 001-33366), filed on December 5, 2013) 10.27* Omnibus Agreement, dated December 4, 2013, am",
+    :contexts
+    ["er) (Incorporated by reference to Exhibit 10.1 to Cheniere Energy Partners, L.P.'s Current Report on Form 8-K (SEC File No. 001-33366), filed on December 5, 2013) 10.27* Omnibus Agreement, dated December 4, 2013, am"
+     "t.) (Incorporated by reference to Exhibit 10.1 to Cheniere Energy Partners, L.P.'s Quarterly Report on Form 10-Q (SEC File No. 001-33366), filed on November 8, 2013) 10.35* Change order to the Lump Sum Turnkey Agree"
+     "tee (Incorporated by reference to Exhibit 10.3 to Cheniere Energy, Inc.'s Current Report on Form 8-K (SEC File No. 001-16383), filed on November 16, 2006) 10.44* Amended and Restated Parity Lien Pledge Agreement, da"
+     "uarantee Agreement, dated as of July 31, 2012, by Cheniere Energy Partners, L.P. in favor of Sabine Pass LNG, L.P. (Incorporated by reference to Exhibit 10.2 to Sabine Pass LNG, L.P.'s Current Report on Form 8-K (SE"
+     "tee. (Incorporated by reference to Exhibit 4.1 to Cheniere Energy Partners, L.P.'s Current Report on Form 8-K (SEC File No. 001-33366), filed on February 4, 2013) 4.7* First Supplemental Indenture, dated as of April"
+     "nt. (Incorporated by reference to Exhibit 10.4 to Cheniere Energy Partners, L.P.'s Current Report on Form 8-K (SEC File No. 001-33366), filed on March 26, 2007) 2.2* Amended and Restated Purchase and Sale Agreement,"],
+    :relationship-counts {:partner 5, :mentioned 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "3570",
+    :sections [:unknown],
+    :name "CHENIERE ENERGY INC",
+    :materiality-indicators #{},
+    :mentions-a 10,
+    :relationships-to-a (:partner :contract),
+    :context
+    ".) (Incorporated by reference to Exhibit 10.45 to Cheniere Energy Partners LP Holdings, LLC's Registration Statement on Form S-1 (SEC File No. 333-191298), filed on October 18, 2013) 10.37* Change orders to the Lump Sum Turn",
+    :contexts
+    [".) (Incorporated by reference to Exhibit 10.45 to Cheniere Energy Partners LP Holdings, LLC's Registration Statement on Form S-1 (SEC File No. 333-191298), filed on October 18, 2013) 10.37* Change orders to the Lump Sum Turn"
+     ".) (Incorporated by reference to Exhibit 10.45 to Cheniere Energy Partners LP Holdings, LLC's Registration Statement on Form S-1 (SEC File No. 333-191298), filed on October 18, 2013) 10.37* Change orders to the Lump Sum Turnkey"
+     "ent (Incorporated by reference to Exhibit 10.5 to Cheniere Energy Partners, L.P.'s Current Report on Form 8-K (SEC File No. 001-33366), filed on May 29, 2013) 10.52* KEXIM Direct Facility Agreement, dated as of May 28, 2013,"
+     "chase Agreement, dated May 14, 2012, by and among Cheniere Energy Partners, L.P., Cheniere Energy, Inc. and Blackstone CQP Holdco LP (Incorporated by reference to Exhibit 10.1 to Cheniere Partners' Current Report on Form 8-K"
+     "d Restated Limited Liability Company Agreement of Cheniere Energy Partners LP Holdings, LLC, dated December 13, 2013 (Incorporated by reference to Exhibit 3.1 to Cheniere Energy Partners LP Holdings, LLC's Current Report on "
+     "d Restated Limited Liability Company Agreement of Cheniere Energy Partners LP Holdings, LLC, dated December 13, 2013 (Incorporated by reference to Exhibit 3.1 to Cheniere Energy Partners LP Holdings, LLC's Current Report on For"
+     "ership interest in and management agreements with Cheniere Energy Partners, L.P. (\"Cheniere Partners\") (NYSE MKT: CQP), which is a publicly traded limited partnership that we created in 2007. We own 100% of the general partn"
+     "artner interest in Cheniere Partners and 84.5% of Cheniere Energy Partners LP Holdings, LLC (\"Cheniere Holdings\") (NYSE MKT: CQH), which owns a 55.9% limited partner interest in Cheniere Partners."
+     "ership interest in and management agreements with Cheniere Energy Partners, L.P. (\"Cheniere Partners\") (NYSE MKT: CQP), which is a publicly traded partnership that we created in 2007. We own 100% of the general partner inter"],
+    :relationship-counts {:partner 8, :contract 2}}}
+  {:company-a
+   {:monetary-values
+    [{:amount 765.0, :unit :millions, :raw "$765 million"}
+     {:amount 258.0, :unit :millions, :raw "$258 million"}
+     {:amount 259.0, :unit :millions, :raw "$259 million"}
+     {:amount 164.0, :unit :millions, :raw "$164 million"}
+     {:amount 258.0, :unit :millions, :raw "258 million "}
+     {:amount 164.0, :unit :millions, :raw "164 million "}
+     {:amount 8.0, :unit :millions, :raw "$8 million"}
+     {:amount 8.0, :unit :millions, :raw "8 million "}
+     {:amount 21.0, :unit :millions, :raw "$21 million"}
+     {:amount 20.0, :unit :millions, :raw "$20 million"}
+     {:amount 21.0, :unit :millions, :raw "21 million "}
+     {:amount 20.0, :unit :millions, :raw "20 million "}
+     {:amount 1.0, :unit :millions, :raw "$1 million"}],
+    :mentions-b 10,
+    :cik "1002910",
+    :sections [:unknown :md-and-a :supply-chain],
+    :name "AMEREN CORP",
+    :relationships-to-b
+    (:mentioned :affiliate :supplier :investment :customer),
+    :materiality-indicators #{"major"},
+    :context
+    "ois. In December 2012, the ICC issued an order in Ameren Illinois' update filing approving an Ameren Illinois electric delivery service revenue requirement of $765 million, based on 2011 recoverable costs and expect",
+    :contexts
+    ["ois. In December 2012, the ICC issued an order in Ameren Illinois' update filing approving an Ameren Illinois electric delivery service revenue requirement of $765 million, based on 2011 recoverable costs and expect"
+     "or to its transfer of the ownership of the former Ameren Illinois energy centers to New AER. IPH will be responsible for any asbestos-related claims arising from activities that occur after the effective date of the"
+     "suppliers, which serve unbundled retail load. For Ameren Illinois retail customers who have not chosen an alternative retail electric supplier, the AMIL transmission rate, and other MISO-related costs are collected "
+     "Ameren Illinois' cash used in investing activities increased $258 million during 2013, compared with 2012. Capital expenditures increased $259 million, primarily due"
+     "illion increase in major storm restoration costs. Ameren Illinois Ameren Illinois’ cash from operating activities increased in 2013, compared with 2012. The following items contributed to the increase in Ameren Illi"
+     "overed costs under the PGAs, primarily related to Ameren Illinois. • A $20 million decrease in payments related to the MISO liability due, in part, to fewer payments required for December 2011 purchases compared to "
+     "ower Supply Agreements Capacity Supply Agreements Ameren Illinois, as an electric load-serving entity, must acquire capacity sufficient to meet its obligations to customers. In 2010, Ameren Illinois used an RFP proc"
+     "tingencies under Part II, Item 8, of this report. Ameren Illinois Any electric supply purchased by Ameren Illinois for its retail customers comes either through an annual procurement process conducted by the IPA or "
+     "n $1 million, based on an 36% effective tax rate. Ameren Illinois has a cost recovery mechanism for power purchased on behalf of its customers. Ameren Illinois does not generate earnings based on the resale of power"
+     "The accompanying notes as they relate to Ameren Illinois are an integral part of these consolidated financial statements."],
+    :relationship-counts
+    {:mentioned 4,
+     :affiliate 1,
+     :supplier 3,
+     :investment 1,
+     :customer 1}},
+   :company-b
+   {:monetary-values
+    [{:amount 974.0, :unit :millions, :raw "$974 million"}
+     {:amount 4.01, :unit :dollars, :raw "$4.01 "}
+     {:amount 519.0, :unit :millions, :raw "$519 million"}
+     {:amount 2.15, :unit :dollars, :raw "$2.15 "}
+     {:amount 139.0, :unit :millions, :raw "$139 million"}
+     {:amount 0.58, :unit :dollars, :raw "$0.58 "}
+     {:amount 1.0, :unit :billions, :raw "$1 billion"}
+     {:amount 1.0, :unit :billions, :raw "1 billion "}
+     {:amount 380.0, :unit :millions, :raw "$380 million"}
+     {:amount 1.57, :unit :dollars, :raw "$1.57 "}
+     {:amount 45.0, :unit :millions, :raw "$45 million"}
+     {:amount 45.0, :unit :millions, :raw "45 million "}],
+    :cik "18654",
+    :sections [:unknown],
+    :name "Ameren Illinois Co",
+    :materiality-indicators #{},
+    :mentions-a 4,
+    :relationships-to-a (:mentioned :acquisition :supplier),
+    :context
+    "uidity. Earnings Summary Net loss attributable to Ameren Corporation was $974 million, or $4.01 per share, for 2012. Net income attributable to Ameren Corporation was $519 million, or $2.15 per share, for 2011, and $13",
+    :contexts
+    ["uidity. Earnings Summary Net loss attributable to Ameren Corporation was $974 million, or $4.01 per share, for 2012. Net income attributable to Ameren Corporation was $519 million, or $2.15 per share, for 2011, and $13"
+     " Illinois distributed the common stock of AERG to Ameren Corporation. AERG's operating results and cash flows prior to October 1, 2010, were presented as discontinued operations in Ameren Illinois’ financial statements"
+     "17. AER - AmerenEnergy Resources Company, LLC, an Ameren Corporation subsidiary that consists of non-rate-regulated operations, including Genco, AERG, Marketing Company and Medina Valley. The Medina Valley energy cente"
+     "2011. 2011 versus 2010 Net income attributable to Ameren Corporation increased $380 million, and earnings per share increased $1.57 in 2011 compared with 2010. The Merchant Generation segment reported net income attrib"],
+    :relationship-counts {:mentioned 2, :acquisition 1, :supplier 1}}}
+  {:company-a
+   {:monetary-values
+    [{:amount 264.0, :unit :millions, :raw "$264.0 million"}
+     {:amount 220.0, :unit :millions, :raw "$220.0 million"}
+     {:amount 264.0, :unit :millions, :raw "264.0 million "}
+     {:amount 220.0, :unit :millions, :raw "220.0 million "}
+     {:amount 57.0, :unit :millions, :raw "$57.0 million"}],
+    :mentions-b 10,
+    :cik "1045810",
+    :sections [:unknown],
+    :name "NVIDIA CORP",
+    :relationships-to-b (:competitor :supplier :license :affiliate),
+    :materiality-indicators #{"substantial"},
+    :context
+    "pete. We expect substantial competition from both Intel and AMD's, strategy of selling platform solutions, including integrating a CPU and a GPU on the same chip or same package, as evidenced by Intel's CP",
+    :contexts
+    ["pete. We expect substantial competition from both Intel and AMD's, strategy of selling platform solutions, including integrating a CPU and a GPU on the same chip or same package, as evidenced by Intel's CP"
+     "02, Mr. Shannon held various counsel positions at Intel, most recently the position of Vice President and Assistant General Counsel. Mr. Shannon also practiced for eight years in the law firm of Gibson Dun"
+     "pete. We expect substantial competition from both Intel's and AMD's, strategy of selling platform solutions, including integrating a CPU and a GPU on the same chip or same package, as evidenced by Intel's "
+     " from the patent cross licensing arrangement with Intel compared to ten months of such corresponding revenue in fiscal year 2012 also contributed to the improvement in gross margin. Offsetting these were t"
+     "ologies Co., Ltd., Imagination Technologies Ltd., Intel, Marvell Technology Group Ltd., Mediatek, Qualcomm Incorporated, Renesas Technology Corp., Samsung Electronics Co. Ltd., ST Microelectronics, and Tex"
+     " cross licensing arrangement we entered into with Intel in January 2011. We recognized $264.0 million in related licensing revenue during the entire twelve months of fiscal year 2013, while fiscal year 201"
+     "ed into a six-year cross licensing agreement with Intel and also mutually agreed to settle all outstanding legal disputes. We valued the settlement portion at $57.0 million, which was recorded within incom"
+     "om Corporation, HiSilicon Technologies Co., Ltd., Intel, Marvell Technology Group Ltd., Mediatek, Qualcomm Incorporated, Samsung Electronics Co. Ltd., and Spreadtrum Communications Co., Ltd."
+     "ue from our patent cross licensing agreement with Intel, which we expect to recognize through March 2017."
+     " cross licensing arrangement we entered into with Intel in January 2011 was flat at $264.0 million between fiscal years 2014 and 2013."],
+    :relationship-counts
+    {:competitor 2, :supplier 2, :license 5, :affiliate 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "50863",
+    :sections [:supply-chain :unknown],
+    :name "INTEL CORP",
+    :materiality-indicators #{"principal" "primary"},
+    :mentions-a 4,
+    :relationships-to-a (:license),
+    :context
+    "o a long-term patent cross-license agreement with NVIDIA. Under the agreement, we received a license to all of NVIDIA’s patents with a capture period that runs through March 2017 while NVIDIA products are l",
+    :contexts
+    ["o a long-term patent cross-license agreement with NVIDIA. Under the agreement, we received a license to all of NVIDIA’s patents with a capture period that runs through March 2017 while NVIDIA products are l"
+     "h a long-term patent cross-license agreement with NVIDIA. The primary objective of our investments in debt instruments is to preserve principal while maximizing yields, which generally track the U.S.-dollar"
+     "dination discount, and credit-rating changes. The NVIDIA Corporation cross-license agreement liability in the preceding table was incurred as a result of entering into a long-term patent cross-license agree"],
+    :relationship-counts {:license 4}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 5,
+    :cik "1510295",
+    :sections [:unknown],
+    :name "Marathon Petroleum Corp",
+    :relationships-to-b (:affiliate :mentioned :partner :investment),
+    :materiality-indicators #{},
+    :context
+    "2, by and among MPLX Operations LLC, as borrower, MPLX LP, as parent guarantor, Citibank, N.A., as administrative agent, each of Citigroup Global Markets Inc., J.P. Morgan Securities LLC, Merrill Lynch, Pier",
+    :contexts
+    ["2, by and among MPLX Operations LLC, as borrower, MPLX LP, as parent guarantor, Citibank, N.A., as administrative agent, each of Citigroup Global Markets Inc., J.P. Morgan Securities LLC, Merrill Lynch, Pier"
+     "nt - Officer 10-Q 10.3 5/9/2013 001-35054 10.36 * MPLX LP - Form of MPC Officer Phantom Unit Award Agreement 10-Q 10.4 5/9/2013 001-35054 10.37 * MPLX LP - Form of MPC Officer Performance Unit Award Agreemen"
+     "In 2012, we formed MPLX LP (“MPLX”), a master limited partnership, to own, operate, develop and acquire pipelines and other midstream assets related to the transportation and s"
+     "g Marathon Petroleum Company LP, Speedway LLC and MPLX LP and its subsidiaries (“MPLX”)."
+     "t areas and includes the aggregated operations of MPLX LP and MPC’s retained pipeline assets and investments."],
+    :relationship-counts
+    {:affiliate 1, :mentioned 2, :partner 1, :investment 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "1552000",
+    :sections [:unknown],
+    :name "MPLX LP",
+    :materiality-indicators #{},
+    :mentions-a 7,
+    :relationships-to-a (:affiliate :mentioned :partner :contract),
+    :context
+    "r 31, 2012, among Marathon Petroleum Corporation, Marathon Petroleum Company LP, MPL Investment LLC, MPLX Operations LLC, MPLX Terminal and Storage LLC, MPLX Pipe Line Holdings LP, Marathon Pipe Line LLC, Ohio River Pipe Line LLC",
+    :contexts
+    ["r 31, 2012, among Marathon Petroleum Corporation, Marathon Petroleum Company LP, MPL Investment LLC, MPLX Operations LLC, MPLX Terminal and Storage LLC, MPLX Pipe Line Holdings LP, Marathon Pipe Line LLC, Ohio River Pipe Line LLC"
+     ", 2012, by and between Marathon Pipe Line LLC and Marathon Petroleum Company LP (Martinsville tank farm) S-1/A 10.14 10/9/2012 333-182500 10.14 Storage Services Agreement, dated effective as of October 1, 2012, by and between Mar"
+     "ts System), dated as of October 31, 2012, between Marathon Petroleum Company LP and Ohio River Pipe Line LLC 8-K 10.10 11/6/2012 001-35714 10.24 Transportation Services Agreement (Robinson Products System), dated as of October 31"
+     "rposes. References to “MPC” refer collectively to Marathon Petroleum Corporation and its subsidiaries, other than the Partnership. Prior to June 30, 2011, MPC was a wholly-owned subsidiary of Marathon Oil Corporation. Marathon Oil"
+     "ORPL\"). References to “MPC” refer collectively to Marathon Petroleum Corporation and its subsidiaries, other than the Partnership. Prior to June 30, 2011, MPC was a wholly owned subsidiary of Marathon Oil Corporation. Marathon Oil"
+     "nd restated its existing operating agreement with Marathon Petroleum Company LP, a wholly-owned subsidiary of MPC, to, among other things, update certain reimbursement, budget, tax and termination provisions. Under this amended a"
+     "rposes. References to “MPC” refer collectively to Marathon Petroleum Corporation and its subsidiaries, other than the Partnership. Prior to June 30, 2011, MPC was a wholly owned subsidiary of Marathon Oil Corporation. Marathon Oil"],
+    :relationship-counts
+    {:affiliate 1, :mentioned 2, :partner 3, :contract 1}}}
+  {:company-a
+   {:monetary-values
+    [{:amount 1.9, :unit :billions, :raw "$1.9 billion"}
+     {:amount 200.0, :unit :millions, :raw "$200 million"}
+     {:amount 363.0, :unit :millions, :raw "$363 million"}
+     {:amount 1.4, :unit :billions, :raw "$1.4 billion"}
+     {:amount 1.1, :unit :billions, :raw "$1.1 billion"}
+     {:amount 1.9, :unit :billions, :raw "1.9 billion "}
+     {:amount 200.0, :unit :millions, :raw "200 million "}
+     {:amount 363.0, :unit :millions, :raw "363 million "}
+     {:amount 1.4, :unit :billions, :raw "1.4 billion "}
+     {:amount 1.1, :unit :billions, :raw "1.1 billion "}],
+    :mentions-b 1,
+    :cik "1021635",
+    :sections [:unknown],
+    :name "OGE ENERGY CORP.",
+    :relationships-to-b (:partner),
+    :materiality-indicators #{},
+    :context
+    "to $363 million of long-term notes payable due to CenterPoint Energy. Enable also has a $1.4 billion revolving credit facility for working capital, capital expenditures and other partnership purposes, including acquisi",
+    :contexts
+    ["to $363 million of long-term notes payable due to CenterPoint Energy. Enable also has a $1.4 billion revolving credit facility for working capital, capital expenditures and other partnership purposes, including acquisi"],
+    :relationship-counts {:partner 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "1130310",
+    :sections [:unknown],
+    :name "CENTERPOINT ENERGY INC",
+    :materiality-indicators #{},
+    :mentions-a 5,
+    :relationships-to-a (:contract :partner),
+    :context
+    "ered into a Master Formation Agreement (MFA) with OGE Energy Corp. (OGE) and affiliates of ArcLight Capital Partners, LLC (ArcLight), pursuant to which we, OGE and ArcLight agreed to form Enable Midstream Partners, ",
+    :contexts
+    ["ered into a Master Formation Agreement (MFA) with OGE Energy Corp. (OGE) and affiliates of ArcLight Capital Partners, LLC (ArcLight), pursuant to which we, OGE and ArcLight agreed to form Enable Midstream Partners, "
+     "ered into a Master Formation Agreement (MFA) with OGE Energy Corp. (OGE) and affiliates of ArcLight Capital Partners, LLC (ArcLight), pursuant to which CenterPoint Energy, OGE and ArcLight agreed to form Enable as a"
+     "nconsolidated partnership jointly controlled with OGE Energy Corp., which owns, operates and develops natural gas and crude oil infrastructure assets."],
+    :relationship-counts {:contract 3, :partner 2}}}
+  {:company-a
+   {:monetary-values
+    [{:amount 1.1, :unit :billions, :raw "$1.1 billion"}
+     {:amount 0.77, :unit :dollars, :raw "$0.77 "}],
+    :mentions-b 3,
+    :cik "1281761",
+    :sections [:unknown],
+    :name "REGIONS FINANCIAL CORP",
+    :relationships-to-b (:affiliate :divestiture),
+    :materiality-indicators #{},
+    :context
+    "t to sell Morgan Keegan and related affiliates to Raymond James Financial, Inc. (“Raymond James”). The transaction closed on April 2, 2012. In connection with the closing of the sale, Regions agreed to indemnify Raymond Jam",
+    :contexts
+    ["t to sell Morgan Keegan and related affiliates to Raymond James Financial, Inc. (“Raymond James”). The transaction closed on April 2, 2012. In connection with the closing of the sale, Regions agreed to indemnify Raymond Jam"
+     "ntered into an agreement to sell Morgan Keegan to Raymond James Financial, Inc. The results of the entities sold are presented as discontinued operations. Refer to Note 3 “Discontinued Operations” of the consolidated financ"
+     "t to sell Morgan Keegan and related affiliates to Raymond James Financial, Inc. (“Raymond James”). The transaction closed on April 2, 2012. Regions Investment Management, Inc. (formerly known as Morgan Asset Management, Inc"],
+    :relationship-counts {:affiliate 2, :divestiture 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "720005",
+    :sections [:unknown],
+    :name "RAYMOND JAMES FINANCIAL INC",
+    :materiality-indicators #{},
+    :mentions-a 2,
+    :relationships-to-a (:affiliate :customer),
+    :context
+    " referred to hereinafter as “Morgan Keegan”) from Regions Financial Corporation (“Regions”). In July 2013, MK & Co. formally changed its legal form from a corporation to a limited liability company, and is now known as Morgan Kee",
+    :contexts
+    [" referred to hereinafter as “Morgan Keegan”) from Regions Financial Corporation (“Regions”). In July 2013, MK & Co. formally changed its legal form from a corporation to a limited liability company, and is now known as Morgan Kee"
+     " referred to hereinafter as “Morgan Keegan”) from Regions Financial Corporation (“Regions”). This acquisition expands both our private client and our capital markets businesses. We accounted for this acquisition under the acquisi"],
+    :relationship-counts {:affiliate 1, :customer 1}}}
+  {:company-a
+   {:monetary-values
+    [{:amount 6065000.0, :unit :dollars, :raw "$6,065,000 "}
+     {:amount 381000.0, :unit :dollars, :raw "$381,000 "}
+     {:amount 378000.0, :unit :dollars, :raw "$378,000"}],
+    :mentions-b 3,
+    :cik "1047335",
+    :sections [:unknown :business],
+    :name "NATIONAL HEALTHCARE CORP",
+    :relationships-to-b (:investment :affiliate),
+    :materiality-indicators #{},
+    :context
+    "he prior year due to decreased percentage rent to National Health Investors, Inc. (NHI) of $378,000. Percentage rent to NHI is equal to 4% of the increase in facility revenues over the 2007 revenues, the base year of the leas",
+    :contexts
+    ["he prior year due to decreased percentage rent to National Health Investors, Inc. (NHI) of $378,000. Percentage rent to NHI is equal to 4% of the increase in facility revenues over the 2007 revenues, the base year of the leas"
+     "62 leased or owned facilities, 35 are leased from National Health Investors, Inc. (\"NHI\"). Our 15 assisted living centers (14 leased or owned and one is managed) have 628 units (604 units leased or owned and 24 units managed)"
+     "Note 2 - Relationship with National Health Investors, Inc. In 1991, we formed National Health Investors, Inc. (\"NHI\") as a wholly-owned subsidiary. We then transferred to NHI certain healthcare faciliti"],
+    :relationship-counts {:investment 2, :affiliate 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "877860",
+    :sections [:unknown],
+    :name "NATIONAL HEALTH INVESTORS INC",
+    :materiality-indicators #{},
+    :mentions-a 2,
+    :relationships-to-a (:mentioned),
+    :context
+    "We have two operators, National HealthCare Corporation (“NHC”) and Bickford Senior Living (\"Bickford\"), from whom we individually derive at least 10% of our income from operations. Beginning in December 2",
+    :contexts
+    ["We have two operators, National HealthCare Corporation (“NHC”) and Bickford Senior Living (\"Bickford\"), from whom we individually derive at least 10% of our income from operations. Beginning in December 2"],
+    :relationship-counts {:mentioned 2}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 1,
+    :cik "1136893",
+    :sections [:unknown],
+    :name "Fidelity National Information Services, Inc.",
+    :relationships-to-b (:affiliate),
+    :materiality-indicators #{},
+    :context
+    " shared a number of directors and executives with Fidelity National Financial, Inc. (\"FNF\"), our former parent, subsequent to becoming an independent company. As a result, FNF qualified as a related party from an accounting per",
+    :contexts
+    [" shared a number of directors and executives with Fidelity National Financial, Inc. (\"FNF\"), our former parent, subsequent to becoming an independent company. As a result, FNF qualified as a related party from an accounting per"],
+    :relationship-counts {:affiliate 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "1331875",
+    :sections [:unknown :notes-to-financials],
+    :name "Fidelity National Financial, Inc.",
+    :materiality-indicators #{},
+    :mentions-a 3,
+    :relationships-to-a (:mentioned),
+    :context
+    "We could have conflicts with Fidelity National Information Services (\"FIS\"), and our chairman of our Board of Directors and other officers and directors could have conflicts of interest due to their relationships with",
+    :contexts
+    ["We could have conflicts with Fidelity National Information Services (\"FIS\"), and our chairman of our Board of Directors and other officers and directors could have conflicts of interest due to their relationships with"
+     "ur financial statements reflect transactions with Fidelity National Information Services (\"FIS\"), which is a related party. See Note A of the Notes to Consolidated Financial Statements."
+     "We have historically conducted business with Fidelity National Information Services (\"FIS\") and its subsidiaries."],
+    :relationship-counts {:mentioned 3}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 1,
+    :cik "827052",
+    :sections [:notes-to-financials],
+    :name "EDISON INTERNATIONAL",
+    :relationships-to-b (:mentioned),
+    :materiality-indicators #{},
+    :context
+    " Credit Agreement dated as of March 5, 2010 among Southern California Edison Company and Bank of America, N.A., as Administrative Agent, Wells Fargo Bank, N.A., as Syndication Agent, and Barclays Bank PLC, Morgan Stanley Bank, N.A., S",
+    :contexts
+    [" Credit Agreement dated as of March 5, 2010 among Southern California Edison Company and Bank of America, N.A., as Administrative Agent, Wells Fargo Bank, N.A., as Syndication Agent, and Barclays Bank PLC, Morgan Stanley Bank, N.A., S"],
+    :relationship-counts {:mentioned 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "92103",
+    :sections [:unknown :md-and-a],
+    :name "SOUTHERN CALIFORNIA EDISON CO",
+    :materiality-indicators #{},
+    :mentions-a 2,
+    :relationships-to-a (:mentioned :affiliate),
+    :context
+    "Exhibit Number Description 10.25** Edison International Director Nonqualified Stock Options 2005 Terms and Conditions (File No. 1-9936, filed as Exhibit 99.3 to Edison International's Form 8-K dated May 19",
+    :contexts
+    ["Exhibit Number Description 10.25** Edison International Director Nonqualified Stock Options 2005 Terms and Conditions (File No. 1-9936, filed as Exhibit 99.3 to Edison International's Form 8-K dated May 19"
+     "nhouse gas Global Settlement A settlement between Edison International and the IRS that resolves all of SCE's federal income tax disputes and affirmative claims for tax years 1986 through 2002 and related matters with st"],
+    :relationship-counts {:mentioned 1, :affiliate 1}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 1,
+    :cik "1275477",
+    :sections [:unknown],
+    :name "BIMINI CAPITAL MANAGEMENT, INC.",
+    :relationships-to-b (:contract),
+    :materiality-indicators #{},
+    :context
+    "y 7, 2012 -107- 10.3 Management Agreement between Orchid Island Capital, Inc. and Bimini Advisors, LLC date February 20, 2013, incorporated by reference to Exhibit 10.1 to the Company’s Current Report on Form 8-K, dated F",
+    :contexts
+    ["y 7, 2012 -107- 10.3 Management Agreement between Orchid Island Capital, Inc. and Bimini Advisors, LLC date February 20, 2013, incorporated by reference to Exhibit 10.1 to the Company’s Current Report on Form 8-K, dated F"],
+    :relationship-counts {:contract 1}},
+   :company-b
+   {:monetary-values
+    [{:amount 1500.0, :unit :dollars, :raw "$ 1,500 "}
+     {:amount 1.49985E7, :unit :dollars, :raw "$ 14,998,500 "}
+     {:amount 1.3779632E7, :unit :dollars, :raw "$ 13,779,632 "}
+     {:amount 1.395, :unit :dollars, :raw "$1.395 "}],
+    :cik "1518621",
+    :sections [:notes-to-financials :unknown],
+    :name "Orchid Island Capital, Inc.",
+    :materiality-indicators #{},
+    :mentions-a 2,
+    :relationships-to-a (:mentioned),
+    :context
+    "3 Issuance of common stock to repay amount due to Bimini Capital Management, Inc. 41 410,959 - 411,000 Balances, December 31, 2012 1,541 15,409,459 (686,025 ) 14,724,975 Net loss - - (698,006 ) (698,006 ) Cash dividends decla",
+    :contexts
+    ["3 Issuance of common stock to repay amount due to Bimini Capital Management, Inc. 41 410,959 - 411,000 Balances, December 31, 2012 1,541 15,409,459 (686,025 ) 14,724,975 Net loss - - (698,006 ) (698,006 ) Cash dividends decla"
+     "e, prepaid expenses and other assets, due from/to Bimini Capital Management, Inc., repurchase agreements, accrued interest payable, accounts payable, accrued expenses and others generally approximates their carrying values as"],
+    :relationship-counts {:mentioned 2}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 2,
+    :cik "1376986",
+    :sections [:unknown],
+    :name "Tennessee Valley Authority",
+    :relationships-to-b (:affiliate :supplier),
+    :materiality-indicators #{},
+    :context
+    "Edison International Pacific Gas and Electric Co. American Electric Power Co., Inc. Energy Future Holdings Corp. PPL Corp. CenterPoint Energy, Inc. Entergy Corp. Progress Energy, Inc. CMS Energy Corp. Exelon Corp. Public Servic",
+    :contexts
+    ["Edison International Pacific Gas and Electric Co. American Electric Power Co., Inc. Energy Future Holdings Corp. PPL Corp. CenterPoint Energy, Inc. Entergy Corp. Progress Energy, Inc. CMS Energy Corp. Exelon Corp. Public Servic"
+     "includes Southern Company, Next Era Energy, Inc., American Electric Power Co., Inc., Duke Energy Corp., Progress Energy, Inc., Entergy Corp., Dominion Resources, Inc., Ameren Corp., and PPL."],
+    :relationship-counts {:affiliate 1, :supplier 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "4904",
+    :sections [:unknown],
+    :name "AMERICAN ELECTRIC POWER CO INC",
+    :materiality-indicators #{},
+    :mentions-a 1,
+    :relationships-to-a (:contract),
+    :context
+    ". APCo has several points of interconnection with Tennessee Valley Authority (TVA) and has entered into agreements with TVA under which APCo and TVA interchange and transfer electric power over portions of their respective sys",
+    :contexts
+    [". APCo has several points of interconnection with Tennessee Valley Authority (TVA) and has entered into agreements with TVA under which APCo and TVA interchange and transfer electric power over portions of their respective sys"],
+    :relationship-counts {:contract 1}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 1,
+    :cik "1383414",
+    :sections [:risk-factors],
+    :name "PENNANTPARK INVESTMENT CORP",
+    :relationships-to-b (:investment),
+    :materiality-indicators #{},
+    :context
+    "Administrator, serve as officers and directors of PennantPark Floating Rate Capital Ltd., a publicly traded BDC. Accordingly, they may have obligations to investors in PennantPark Floating Rate Capital Ltd., the fulfillment of which oblig",
+    :contexts
+    ["Administrator, serve as officers and directors of PennantPark Floating Rate Capital Ltd., a publicly traded BDC. Accordingly, they may have obligations to investors in PennantPark Floating Rate Capital Ltd., the fulfillment of which oblig"],
+    :relationship-counts {:investment 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "1504619",
+    :sections [:unknown],
+    :name "PennantPark Floating Rate Capital Ltd.",
+    :materiality-indicators #{},
+    :mentions-a 1,
+    :relationships-to-a (:investment),
+    :context
+    "tment Adviser, serve as officers and directors of PennantPark Investment Corporation, a publicly-traded BDC. Although the Investment Adviser endeavors to allocate investment opportunities in a fair and equitable manner, it is possible",
+    :contexts
+    ["tment Adviser, serve as officers and directors of PennantPark Investment Corporation, a publicly-traded BDC. Although the Investment Adviser endeavors to allocate investment opportunities in a fair and equitable manner, it is possible"],
+    :relationship-counts {:investment 1}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 1,
+    :cik "1267395",
+    :sections [:unknown],
+    :name "ASPEN INSURANCE HOLDINGS LTD",
+    :relationships-to-b (:partner),
+    :materiality-indicators #{},
+    :context
+    "tnerRe Ltd., Platinum Underwriters Holdings Ltd., Renaissance Re Holdings Ltd., Validus Holdings Ltd., XL Capital Ltd. and various Lloyd’s syndicates.",
+    :contexts
+    ["tnerRe Ltd., Platinum Underwriters Holdings Ltd., Renaissance Re Holdings Ltd., Validus Holdings Ltd., XL Capital Ltd. and various Lloyd’s syndicates."],
+    :relationship-counts {:partner 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "913144",
+    :sections [:unknown],
+    :name "RENAISSANCERE HOLDINGS LTD",
+    :materiality-indicators #{},
+    :mentions-a 1,
+    :relationships-to-a (:affiliate),
+    :context
+    "d Assurance Company, AG, Arch Capital Group Ltd., Aspen Insurance Holdings Limited, Axis Capital Holdings Limited, Endurance Specialty Holdings Ltd., Everest Re Group, Ltd., Hamilton Re Ltd. (“Hamilton Re”), Montpelier Re Holdings L",
+    :contexts
+    ["d Assurance Company, AG, Arch Capital Group Ltd., Aspen Insurance Holdings Limited, Axis Capital Holdings Limited, Endurance Specialty Holdings Ltd., Everest Re Group, Ltd., Hamilton Re Ltd. (“Hamilton Re”), Montpelier Re Holdings L"],
+    :relationship-counts {:affiliate 1}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 1,
+    :cik "1257640",
+    :sections [:unknown],
+    :name "KRONOS WORLDWIDE INC",
+    :relationships-to-b (:mentioned),
+    :materiality-indicators #{},
+    :context
+    "Annual Report on Form 10-K (File No. 001-00640)of NL Industries, Inc. for the year ended December 31, 1985. 10.15 Master Technology Exchange Agreement, dated as of October 18, 1993, among Kronos Worldwide, Inc. (f",
+    :contexts
+    ["Annual Report on Form 10-K (File No. 001-00640)of NL Industries, Inc. for the year ended December 31, 1985. 10.15 Master Technology Exchange Agreement, dated as of October 18, 1993, among Kronos Worldwide, Inc. (f"],
+    :relationship-counts {:mentioned 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "72162",
+    :sections [:unknown],
+    :name "NL INDUSTRIES INC",
+    :materiality-indicators #{},
+    :mentions-a 1,
+    :relationships-to-a (:mentioned),
+    :context
+    "(564 ) (640 ) (729 ) Equity in (earnings) loss of Kronos Worldwide, Inc. (97,577 ) (66,437 ) 31,007 Distributions from Kronos Worldwide, Inc. 37,861 21,132 21,132 Net gains from: Real estate-related litigation settle",
+    :contexts
+    ["(564 ) (640 ) (729 ) Equity in (earnings) loss of Kronos Worldwide, Inc. (97,577 ) (66,437 ) 31,007 Distributions from Kronos Worldwide, Inc. 37,861 21,132 21,132 Net gains from: Real estate-related litigation settle"],
+    :relationship-counts {:mentioned 1}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 1,
+    :cik "1061219",
+    :sections [:unknown],
+    :name "ENTERPRISE PRODUCTS PARTNERS L P",
+    :relationships-to-b (:mentioned),
+    :materiality-indicators #{},
+    :context
+    "In September 2013, we, along with Plains All American Pipeline, L.P. (“Plains”), announced an expansion of our Eagle Ford Crude Oil Pipeline System in South Texas. The expansion is expected to increase the pipeli",
+    :contexts
+    ["In September 2013, we, along with Plains All American Pipeline, L.P. (“Plains”), announced an expansion of our Eagle Ford Crude Oil Pipeline System in South Texas. The expansion is expected to increase the pipeli"],
+    :relationship-counts {:mentioned 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "1070423",
+    :sections [:unknown],
+    :name "PLAINS ALL AMERICAN PIPELINE LP",
+    :materiality-indicators #{},
+    :mentions-a 1,
+    :relationships-to-a (:partner),
+    :context
+    "gust 2012, we formed Eagle Ford Pipeline LLC with Enterprise Products Partners (“Enterprise”) for the purpose of developing a crude oil pipeline system in the Eagle Ford Area of South Texas. In conjunction with the formation, we",
+    :contexts
+    ["gust 2012, we formed Eagle Ford Pipeline LLC with Enterprise Products Partners (“Enterprise”) for the purpose of developing a crude oil pipeline system in the Eagle Ford Area of South Texas. In conjunction with the formation, we"],
+    :relationship-counts {:partner 1}}}
+  {:company-a
+   {:monetary-values [],
+    :mentions-b 1,
+    :cik "18230",
+    :sections [:supply-chain],
+    :name "CATERPILLAR INC",
+    :relationships-to-b (:competitor),
+    :materiality-indicators #{},
+    :context
+    "nt (part of the Volvo Group AB), CNH Global N.V., Deere & Co., Hitachi Construction Machinery Co., J.C. Bamford Ltd., Doosan Infracore Co., Ltd. and Hyundai. As an example of regional and local competitors, our ",
+    :contexts
+    ["nt (part of the Volvo Group AB), CNH Global N.V., Deere & Co., Hitachi Construction Machinery Co., J.C. Bamford Ltd., Doosan Infracore Co., Ltd. and Hyundai. As an example of regional and local competitors, our "],
+    :relationship-counts {:competitor 1}},
+   :company-b
+   {:monetary-values [],
+    :cik "315189",
+    :sections [:unknown],
+    :name "DEERE & CO",
+    :materiality-indicators #{},
+    :mentions-a 1,
+    :relationships-to-a (:competitor),
+    :context
+    " of the construction and forestry segment include Caterpillar Inc., Komatsu Ltd., Volvo Construction Equipment (part of Volvo Group AB), CNH Global N.V., Tigercat Industries Inc. and Ponsse Plc. The segment manu",
+    :contexts
+    [" of the construction and forestry segment include Caterpillar Inc., Komatsu Ltd., Volvo Construction Equipment (part of Volvo Group AB), CNH Global N.V., Tigercat Industries Inc. and Ponsse Plc. The segment manu"],
+    :relationship-counts {:competitor 1}}})}
